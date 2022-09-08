@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-group',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GroupComponent implements OnInit {
 
-  constructor() { }
+  username = sessionStorage.getItem('username');
+  userrole = sessionStorage.getItem('userrole');
+
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  logout(){
+    window.sessionStorage.clear();
+    this.router.navigateByUrl("");
   }
 
 }

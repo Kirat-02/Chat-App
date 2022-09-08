@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json'})
 };
-const BACKEND_URL = 'https://s2179956.elf.ict.griffith.edu.au:3001';
+const BACKEND_URL = 'http://localhost:3000';
 
 @Component({
   selector: 'app-login',
@@ -20,29 +20,27 @@ export class LoginComponent implements OnInit {
 
   constructor(private router:Router, private httpClient: HttpClient) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submit(){
     
     let user = {username:this.username, pwd: this.password};
+
     this.httpClient.post(BACKEND_URL + '/login', user,  httpOptions)
     
     .subscribe((data:any)=>{
-      alert("posting: " +JSON.stringify(user));
-
-      alert("postRes: " +JSON.stringify(data));
 
       if (data.ok){
-        alert("correct");
-        sessionStorage.setItem('username', data.userid.toString());
-        sessionStorage.setItem('userrole', data.ok.toString());
-        this.router.navigateByUrl("/account");
+
+        sessionStorage.setItem('username', data.username.toString());
+        sessionStorage.setItem('userrole', data.userrole.toString());
+        this.router.navigateByUrl("/group");
+
+      } else { 
+
+        alert("email or password incorrect");}
+
       }
-      else { alert("email or password incorrect");}
-
-
-    })
+    )
   }
-
 }

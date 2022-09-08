@@ -1,0 +1,38 @@
+[
+    {
+        "userid":1,
+        "username": "super",
+        "useremail":"super@gmail.com",
+        "userrole": "Super Admin"
+    },
+    {
+        "userid":2,
+        "username": "jason",
+        "useremail":"jason@gmail.com",
+        "userrole": "Group Admin"
+    },
+    {
+        "userid":3,
+        "username": "jack",
+        "useremail":"jack@gmail.com",
+        "userrole": "Group Assistant"
+    },
+    {
+        "userid":4,
+        "username": "kirat",
+        "useremail":"kirat@gmail.com",
+        "userrole": "User"
+    },
+    {
+        "userid":5,
+        "username": "smith",
+        "useremail":"smith@gmail.com",
+        "userrole": "User"
+    },
+    {
+        "userid":6,
+        "username": "john",
+        "useremail":"john@gmail.com",
+        "userrole": "User"
+    }
+]

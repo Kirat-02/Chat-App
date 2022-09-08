@@ -4,7 +4,7 @@
 
         <div class="d-flex justify-content-between p-2">
 
-            <p class="d-flex flex-column justify-content-center h-100 ">Hello, Kirat</p>
+            <p class="d-flex flex-column justify-content-center h-100 ">Hello, {{username}}</p>
 
             <div class="d-flex justify-content-end">
 
@@ -15,7 +15,7 @@
                     </button>
                 </div>
                 <div class="">       
-                    <button class="btn btn-danger">Log Out</button>
+                    <button class="btn btn-danger" (click)="logout()">Log Out</button>
                 </div>
     
             </div>
