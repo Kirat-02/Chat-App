@@ -34,7 +34,9 @@ export class LoginComponent implements OnInit {
 
         sessionStorage.setItem('username', data.username.toString());
         sessionStorage.setItem('userrole', data.userrole.toString());
-        this.router.navigateByUrl("/group");
+        
+        // This will used to get groups and channel details the user is part of.
+        this.router.navigateByUrl("/user/"+data.userid);
 
       } else { 
 

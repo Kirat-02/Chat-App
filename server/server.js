@@ -22,3 +22,7 @@ var server = http.listen(3000, function(){
 });
 
 app.post('/login', require('./router/authenticate'));
+app.get('/groups/:userid', require('./router/groups'));
+
+app.get('/userlist', require('./router/users'));
+app.post('/adduser', require('./router/adduser'));

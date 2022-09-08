@@ -1,0 +1,90 @@
+<div class="container d-flex justify-content-center mt-5 p-5" style="min-height: 800px;">
+   
+    <div class="d-flex flex-column bg-info w-75 border border-dark rounded pt-4">
+
+        <div class="d-flex justify-content-between p-2">
+
+            <p class="d-flex flex-column justify-content-center h-100 ">Hello, {{username}}</p>
+            <div class="d-flex justify-content-end">
+
+                <div class="">       
+                    <button class="btn btn-danger d-flex justify-content-center" (click)="logout()">
+                        <span class="material-symbols-outlined">
+                            logout
+                        </span>
+                        Log Out
+                    </button>
+                </div>
+    
+            </div>
+        </div>
+
+        <div class="flex-grow-1 d-flex flex-column px-5 py-2 rounded-bottom" style="background-color: rgb(229, 229, 229);" >
+
+            <div class="d-flex justify-content-between py-1">
+                <div class="">
+                    <button class="btn btn-warning d-flex justify-content-center px-2" (click)="back()">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                        <span>Back</span>
+                    </button>
+                </div>  
+                <div class="">
+                    <button class="btn btn-success d-flex justify-content-center px-2">
+                        <span class="material-symbols-outlined">person_add</span>
+                        <span class="px-1">Create User</span>
+                    </button>
+                </div>  
+            </div>
+
+            <div class="border border-secondary bg-light rounded h-auto mb-2">
+              
+                <form>
+
+                    <div class="form-group d-flex flex-column align-items-center my-2">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" [(ngModel)]="newusername" id="form1Example13" class="form-control w-50"/>
+                    </div>
+
+                    <div class="form-group d-flex flex-column align-items-center">
+                        <label class="form-label">Email address</label>
+                        <input type="email" name="email" [(ngModel)]="newuseremail" class="form-control w-50" placeholder="name@example.com">
+                      </div>
+
+                    <div class="form-group d-flex flex-column align-items-center my-2">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" [(ngModel)]="newuserpassword"  class="form-control w-50"/>  
+                    </div>
+
+                    <div class="form-group d-flex flex-column align-items-center my-2">
+                        <button type="submit" class="btn btn-primary btn-block" (click)="addUser()">Submit</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div  *ngFor="let user of userlist; let i = index" class="d-flex flex-column my-1 bg-light rounded border border-primary">
+           
+                <div class="d-flex justify-content-between py-1 bg-light rounded-top"> 
+                    <div class="align-self-center px-2">
+                        {{ user.username}}     
+                    </div>
+                    <div class="d-flex">
+            
+                        <div class="px-1">
+                            <button class="btn btn-danger d-flex justify-content-center">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+
+            </div>    
+         
+        </div>
+ 
+    </div>
+    
+</div>

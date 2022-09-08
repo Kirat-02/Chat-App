@@ -31,9 +31,9 @@ module.exports = function(req, res) {
                     ((user.username == u)));
                 let userData = extendedUserArray[i];
                 userData["ok"] = true;
-
-                console.log(userData);
                 res.send(userData);
+
+                
 
             })
         }
