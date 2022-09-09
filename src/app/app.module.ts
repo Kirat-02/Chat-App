@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { GroupComponent } from './group/group.component';
 import { ChannelComponent } from './channel/channel.component';
 import { UserComponent } from './user/user.component';
+import { GroupaddComponent } from './groupadd/groupadd.component';
+import { ChanneladdComponent } from './channeladd/channeladd.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { UserComponent } from './user/user.component';
     LoginComponent,
     GroupComponent,
     ChannelComponent,
-    UserComponent
+    UserComponent,
+    GroupaddComponent,
+    ChanneladdComponent
   ],
   imports: [
     BrowserModule,

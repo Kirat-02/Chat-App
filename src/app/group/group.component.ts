@@ -64,12 +64,20 @@ export class GroupComponent implements OnInit {
   }
 
   loadchannel(id: Number){
-    this.router.navigateByUrl("/channel/"+id)
+    this.router.navigateByUrl("/channel/"+id);
   }
 
   logout(){
     window.sessionStorage.clear();
     this.router.navigateByUrl("");
+  }
+
+  groupAddUser(id: Number){
+    this.router.navigateByUrl("/group/"+id+"/adduser");
+  }
+
+  channelAdduser(id: Number){
+    this.router.navigateByUrl("/channel/"+id+"/adduser");
   }
 
 }
