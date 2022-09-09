@@ -1,1 +1,71 @@
-[{"userid":1,"username":"super","useremail":"super@gmail.com","userrole":"Super Admin","groups":[1,2,3]},{"userid":2,"username":"jason","useremail":"jason@gmail.com","userrole":"Group Admin","groups":[1]},{"userid":3,"username":"jack","useremail":"jack@gmail.com","userrole":"Group Assistant","groups":[1]},{"userid":4,"username":"kirat","useremail":"kirat@gmail.com","userrole":"User","groups":[2]},{"userid":5,"username":"smith","useremail":"smith@gmail.com","userrole":"User","groups":[2,3]},{"userid":6,"username":"john","useremail":"john@gmail.com","userrole":"User","groups":[3]}]
+[
+    {
+        "userid": 1,
+        "username": "super",
+        "useremail": "super@gmail.com",
+        "userrole": "super",
+        "groups": [
+            1,
+            2,
+            3
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    },
+    {
+        "userid": 2,
+        "username": "jason",
+        "useremail": "jason@gmail.com",
+        "userrole": "user",
+        "groups": [
+            1
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    },
+    {
+        "userid": 3,
+        "username": "jack",
+        "useremail": "jack@gmail.com",
+        "userrole": "user",
+        "groups": [
+            1
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    },
+    {
+        "userid": 4,
+        "username": "kirat",
+        "useremail": "kirat@gmail.com",
+        "userrole": "user",
+        "groups": [
+            2
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    },
+    {
+        "userid": 5,
+        "username": "smith",
+        "useremail": "smith@gmail.com",
+        "userrole": "user",
+        "groups": [
+            2,
+            3
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    },
+    {
+        "userid": 6,
+        "username": "john",
+        "useremail": "john@gmail.com",
+        "userrole": "user",
+        "groups": [
+            3
+        ],
+        "groupsAdmin": [],
+        "groupsAssistant": []
+    }
+]

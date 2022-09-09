@@ -6,7 +6,7 @@ import { ChannelComponent } from './channel/channel.component';
 
 import { UserComponent } from './user/user.component';
 
-const routes: Routes = [{path:'', component: LoginComponent}, {path:'user/:id', component: GroupComponent}, {path:'channel', component: ChannelComponent}, {path:'userlist', component: UserComponent}];
+const routes: Routes = [{path:'', component: LoginComponent}, {path:'user/:id', component: GroupComponent}, {path:'channel/:id', component: ChannelComponent}, {path:'userlist', component: UserComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

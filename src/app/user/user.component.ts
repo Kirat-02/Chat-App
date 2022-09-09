@@ -55,9 +55,12 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(name: Text){
-    this.httpClient.delete(BACKEND_URL + '/deleteuser/'+ name)
+
+    if (window.confirm("Do you reallt want to delete "+name+ "?")) {
+      this.httpClient.delete(BACKEND_URL + '/deleteuser/'+ name)
     .subscribe((data:any)=> {});
     window.location.reload();
+    } 
   }
 
   back(){

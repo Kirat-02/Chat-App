@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
 
       if (data.ok){
 
+        sessionStorage.setItem('userid', data.userid);
         sessionStorage.setItem('username', data.username.toString());
         sessionStorage.setItem('userrole', data.userrole.toString());
         

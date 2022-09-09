@@ -1,12 +1,8 @@
 <div class="container d-flex justify-content-center mt-5 p-5" style="height: 800px;">
-   
     <div class="d-flex flex-column bg-info w-75 border border-dark rounded pt-4">
-
         <div class="d-flex justify-content-between p-2">
-
             <p class="d-flex flex-column justify-content-center h-100 ">Hello, {{username}}</p>
             <div class="d-flex justify-content-end">
-
                 <div class="">       
                     <button class="btn btn-danger d-flex justify-content-center" (click)="logout()">
                         <span class="material-symbols-outlined">
@@ -15,12 +11,9 @@
                         Log Out
                     </button>
                 </div>
-    
             </div>
         </div>
-
         <div class="flex-grow-1 d-flex flex-column px-5 py-2 rounded-bottom" style="background-color: rgb(229, 229, 229);" >
-
             <div class="d-flex justify-content-between py-1">
                 <div class="">
                     <button class="btn btn-warning d-flex justify-content-center px-2" (click)="back()">
@@ -29,37 +22,34 @@
                     </button>
                 </div>  
             </div>
-            <div class="border border-secondary bg-light rounded h-100 mb-4 d-flex flex-column justify-content-end">
-
-                <div class="p-2">
-
-                    <div class="px-2 py-1 my-1 rounded" style="float:left; background-color: rgb(146, 185, 245); margin-right: auto;">
-                        Hello, How are you ?
+            <div class="border border-secondary bg-light rounded h-100 mb-4 d-flex flex-column justify-content-between">
+                <div *ngIf="messages.length == 0"  class="d-flex justify-content-center py-2 align-self-center"> 
+                    <div class="px-2 py-1 my-1 rounded bg-secondary">
+                        No Messages Yet
                     </div>
-                    
-                    <br>
-
-                    <div class="rounded px-2 py-1 my-1" style="float: right; background-color: rgb(147, 249, 167); margin-left: auto;">
-                        I am good.
-                    </div>    
-                    
                 </div>
-              
-                <form>    
-                    <div class="d-flex p-2">
-                        <input type="text" name="message" class="form-control form-control-lg" />
-                        <button type="submit" class="btn btn-primary btn-lg btn-block mx-2 d-flex flex-column justify-content-center" (click)="sendMessage()">
-                            <span class="material-symbols-outlined">send</span>
-                        </button>
+                <div class=" h-100  d-flex flex-column justify-content-end">
+                    <div class="p-2">
+                        <div *ngFor="let message of messages" class="d-flex justify-content-between py-2 align-self-center"> 
+                            <div *ngIf="message.userid != userid" class="px-2 py-1 my-1 rounded" style="float:left; background-color: rgb(146, 185, 245); margin-right: auto;">
+                                {{message.message}}
+                            </div>    
+                            <br>
+                            <div *ngIf="message.userid == userid" class="rounded px-2 py-1 my-1 mx-2" style="float: right; background-color: rgb(147, 249, 167); margin-left: auto;">
+                                {{message.message}}
+                            </div>  
+                        </div> 
                     </div>
-                  </form>
+                    <form>    
+                        <div class="d-flex p-2">
+                            <input type="text" name="message" [(ngModel)]="message"  class="form-control form-control-lg" />
+                            <button type="submit" class="btn btn-primary btn-lg btn-block mx-2 d-flex flex-column justify-content-center" (click)="sendMessage()">
+                                <span class="material-symbols-outlined">send</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>    
             </div>
-       
-           
         </div>
-
-        
-      
     </div>
-    
 </div>

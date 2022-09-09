@@ -30,6 +30,11 @@ export class GroupComponent implements OnInit {
   id: Number = Number(this.route.snapshot.params['id']);
   groups: Groups[] = [];
 
+  newgroupname = '';
+
+  public GroupisCollapsed = true;
+  public ChannelisCollapsed = true;
+
   constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient) { }
 
   ngOnInit() {
@@ -46,12 +51,20 @@ export class GroupComponent implements OnInit {
     )
   }
 
+  addChannel(groupid: Number){
+    console.log(groupid);
+  }
+
+  addGroup(){
+    console.log("Group Added");
+  }
+
   loaduserlist(){
     this.router.navigateByUrl("/userlist");
   }
 
   loadchannel(id: Number){
-    this.router.navigateByUrl("/channel")
+    this.router.navigateByUrl("/channel/"+id)
   }
 
   logout(){
