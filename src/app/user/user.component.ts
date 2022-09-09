@@ -51,6 +51,10 @@ export class UserComponent implements OnInit {
     let userdetails = {username:this.newusername, email: this.newuseremail, password: this.newuserpassword};
     this.httpClient.post(BACKEND_URL + '/adduser', userdetails, httpOptions)
     .subscribe((data:any)=>{});
+    this.refresh();
+  }
+
+  refresh(): void {
     window.location.reload();
   }
 
@@ -59,7 +63,7 @@ export class UserComponent implements OnInit {
     if (window.confirm("Do you reallt want to delete "+name+ "?")) {
       this.httpClient.delete(BACKEND_URL + '/deleteuser/'+ name)
     .subscribe((data:any)=> {});
-    window.location.reload();
+    this.refresh();
     } 
   }
 

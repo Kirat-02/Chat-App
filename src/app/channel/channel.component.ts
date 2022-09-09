@@ -56,7 +56,7 @@ export class ChannelComponent implements OnInit {
 
   refresh(): void {
     window.location.reload();
-}
+  }
 
   back(){
     this._location.back();
