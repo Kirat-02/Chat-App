@@ -26,3 +26,4 @@ app.get('/groups/:userid', require('./router/groups'));
 
 app.get('/userlist', require('./router/users'));
 app.post('/adduser', require('./router/adduser'));
+app.delete('/deleteuser/:name', require('./router/deleteUser'));

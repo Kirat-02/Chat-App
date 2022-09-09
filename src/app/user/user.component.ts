@@ -31,6 +31,8 @@ export class UserComponent implements OnInit {
   username = sessionStorage.getItem('username');
   userlist: User[] = [];
 
+  public isCollapsed = true;  
+
   constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient, private _location: Location) { }
 
   ngOnInit(){
@@ -46,13 +48,16 @@ export class UserComponent implements OnInit {
   }
 
   addUser(){
-
     let userdetails = {username:this.newusername, email: this.newuseremail, password: this.newuserpassword};
-
     this.httpClient.post(BACKEND_URL + '/adduser', userdetails, httpOptions)
-    
-    
+    .subscribe((data:any)=>{});
+    window.location.reload();
+  }
 
+  deleteUser(name: Text){
+    this.httpClient.delete(BACKEND_URL + '/deleteuser/'+ name)
+    .subscribe((data:any)=> {});
+    window.location.reload();
   }
 
   back(){
@@ -63,6 +68,4 @@ export class UserComponent implements OnInit {
     window.sessionStorage.clear();
     this.router.navigateByUrl("");
   }
-
-
 }

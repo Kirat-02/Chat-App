@@ -8,15 +8,12 @@ module.exports = function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-    // user and password file
-
     fs.readFile('./data/users.json', 'utf8', function(err, data) 
         {
             let newuser = {
                 username: name,
                 pwd: password
             }
-
             if (err) throw err;
             var json = JSON.parse(data)
             json.push(newuser)
@@ -29,7 +26,6 @@ module.exports = function(req, res) {
             if (err) throw err;
             let extendedUserArray = JSON.parse(data);
             let lastuserid = extendedUserArray[extendedUserArray.length -1].userid;
-
             let newuser2 = {
                 userid: lastuserid+1,
                 username: name,
