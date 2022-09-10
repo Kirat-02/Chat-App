@@ -30,7 +30,7 @@ Groups: The groups are stored and retrieved as an array of Group from the json f
 Channels: This is an array of channel of a group with a linked list of users each channel. This also contains link to the messages of each channel.
 Messages: This is an array of Messages. Each message is linked to a channel and a user.
 
-__3.	Angular Architecture __
+**3.	Angular Architecture**
 
     a.	Components: 
       1.	Login Component: this component is used for authentication purposes. It displays the login page as well.
@@ -87,7 +87,7 @@ __3.	Angular Architecture __
       5.	Add User to group: This routes to the page to add user to group.
       6.	Add User to channel: This routes to the page to add user to a channel.
       
-**4.	Node Server Architecture: **
+**4.	Node Server Architecture:**
 
     a.	Modules List:
       1.	Express
@@ -145,7 +145,7 @@ __3.	Angular Architecture __
           ii.	Return Values: This writes the changes to the file.
           iii.	purpose: The purpose of this route is to add a member to the group or channel.
           
-**5.	Responsibilities between Client and Server **
+**5.	Responsibilities between Client and Server**
 
     1.	GET: The clients send a get request on initialization of a component to a server. The server returns a json file.
       a.	A get request is sent for getting the user list.
@@ -162,14 +162,14 @@ __3.	Angular Architecture __
     3.	The client also sends a delete request to the user to delete the user from the user list.
       a.	 A delete request is to send to delete a user from the user list.
       
-**6.	Interaction between Client components and Server **
+**6.	Interaction between Client components and Server**
 
-    1. Login Page Component: After the submission of the user information in the Login Page, the data will be checked and returned true if valid. The auth service will route the page to Group Component with a list of all groups and channels. The global variable ‘isLoggedIn’ will be set to true. The username and role will be stored in the local storage.
+    - Login Page Component: After the submission of the user information in the Login Page, the data will be checked and returned true if valid. The auth service will route the page to Group Component with a list of all groups and channels. The global variable ‘isLoggedIn’ will be set to true. The username and role will be stored in the local storage.
 
-    2. Group Add Component: The client will send a post request with a user id and group id and user role to the server. The server will update the extended user json file to add user in the groups list as well as the group json file to add user in the group. Depending upon the role selected it will add the role to the group file as well. The file will be overwritten with new data containing the latest changes. The Group Add component will refresh page with the new member included in the group member list.
+    - Group Add Component: The client will send a post request with a user id and group id and user role to the server. The server will update the extended user json file to add user in the groups list as well as the group json file to add user in the group. Depending upon the role selected it will add the role to the group file as well. The file will be overwritten with new data containing the latest changes. The Group Add component will refresh page with the new member included in the group member list.
 
-    3. Channel Add Component: The client will send a post request with a user id and channel id and message to the server. The server will update the group json file to add user in the members of the specified channel of the group. The new data containing the latest changes will overwrite the existing file. The Channel Add component will refresh page with the new member included in the channel member list.
+    - Channel Add Component: The client will send a post request with a user id and channel id and message to the server. The server will update the group json file to add user in the members of the specified channel of the group. The new data containing the latest changes will overwrite the existing file. The Channel Add component will refresh page with the new member included in the channel member list.
 
-    4. Message Component: The client will send a post request containing the channel id, message, and the user id. The server will append the new message to the list of messages for a specific channel. The changes will be saved in the json file. The page will refresh to get the new list of messages. The new message will be displayed in the current component. 
+    - Message Component: The client will send a post request containing the channel id, message, and the user id. The server will append the new message to the list of messages for a specific channel. The changes will be saved in the json file. The page will refresh to get the new list of messages. The new message will be displayed in the current component. 
 
-    5. User Component: The client will send a post request containing the information of the new user. The server will update both the user and extended user json file with the user information. The User Component will reload with the new user in the list.
+    - User Component: The client will send a post request containing the information of the new user. The server will update both the user and extended user json file with the user information. The User Component will reload with the new user in the list.
