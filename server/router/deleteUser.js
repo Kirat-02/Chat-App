@@ -5,9 +5,6 @@ module.exports = function(req, res) {
 
     // field input by the user
     username = req.params['name'];
-
-    console.log(username);
-
     
     fs.readFile('./data/users.json', 'utf8', function(err, data) 
         {

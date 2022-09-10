@@ -22,6 +22,7 @@ export class ChanneladdComponent implements OnInit {
 
   groupid: Number = Number(this.route.snapshot.params['groupid']);
   channelid: Number = Number(this.route.snapshot.params['channelid']);
+  userrole = sessionStorage.getItem('userrole');
   userlist: User[] = [];
   nonmembers: User[] = [];
   channel: Channel = {'channelid': 0, members: [0]};

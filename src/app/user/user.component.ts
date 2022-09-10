@@ -18,11 +18,11 @@ import { User } from '../objects/userallobj';
 })
 export class UserComponent implements OnInit {
 
+  userrole = sessionStorage.getItem('userrole');
   newusername = '';
   newuserpassword = '';
   newuseremail = '';
   userlist: User[] = [];
-  
 
   public isCollapsed = true;  
 

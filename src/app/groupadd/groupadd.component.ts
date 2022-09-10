@@ -31,7 +31,7 @@ export class GroupaddComponent implements OnInit {
   newuserid = '';
   newuserrole = 'normal';
   
-  public isCollapsed = true;  
+  public groupAddisCollapsed = true;  
 
   constructor(private router:Router, private _location: Location, private httpClient: HttpClient, private route: ActivatedRoute) { }
 

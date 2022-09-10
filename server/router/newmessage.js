@@ -13,7 +13,7 @@ module.exports = function(req, res) {
 
             // selects the channel from the array with the match
             let i = channels.findIndex(channel => (channel.channelid == channelid));
-            console.log(i);
+      
             if(i == -1){
                 let newconversation = {
                     "channelid": channelid,
@@ -23,7 +23,6 @@ module.exports = function(req, res) {
             } else {
                 let currentChannel = channels[i];
                 currentChannel["messages"].push(message);
-                console.log(channels)
             }
             
             fs.writeFileSync("./data/channelMessages.json", JSON.stringify(channels)) 
