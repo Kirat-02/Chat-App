@@ -30,7 +30,7 @@ Groups: The groups are stored and retrieved as an array of Group from the json f
 Channels: This is an array of channel of a group with a linked list of users each channel. This also contains link to the messages of each channel.
 Messages: This is an array of Messages. Each message is linked to a channel and a user.
 
-**3.	Angular Architecture **
+__3.	Angular Architecture __
 
     a.	Components: 
       1.	Login Component: this component is used for authentication purposes. It displays the login page as well.
