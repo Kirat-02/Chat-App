@@ -11,10 +11,21 @@ module.exports = function(req, res) {
             if (err) throw err;
             let channels = JSON.parse(data);
 
-            // selects the user from the array with the match
+            // selects the channel from the array with the match
             let i = channels.findIndex(channel => (channel.channelid == channelid));
-            let currentChannel = channels[i];
-            currentChannel["messages"].push(message);
+            console.log(i);
+            if(i == -1){
+                let newconversation = {
+                    "channelid": channelid,
+                    "messages": [message]
+                }
+                channels.push(newconversation);
+            } else {
+                let currentChannel = channels[i];
+                currentChannel["messages"].push(message);
+                console.log(channels)
+            }
+            
             fs.writeFileSync("./data/channelMessages.json", JSON.stringify(channels)) 
         }
     );       

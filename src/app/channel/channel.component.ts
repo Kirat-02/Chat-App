@@ -29,7 +29,7 @@ export class ChannelComponent implements OnInit {
 
   username = sessionStorage.getItem('username');
   userid = Number(sessionStorage.getItem('userid'));
-  channelid: Number = Number(this.route.snapshot.params['id']);
+  channelid: Number = Number(this.route.snapshot.params['channelid']);
   messages: Message[]= [];
   message = '';
 
@@ -54,16 +54,13 @@ export class ChannelComponent implements OnInit {
     this.refresh();
   }
 
-  refresh(): void {
-    window.location.reload();
+  refresh() {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['channel/'+this.channelid]);
+    });
   }
 
   back(){
     this._location.back();
-  }
-
-  logout(){
-    window.sessionStorage.clear();
-    this.router.navigateByUrl("");
   }
 }

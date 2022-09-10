@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -9,13 +9,7 @@ const httpOptions = {
 };
 const BACKEND_URL = 'http://localhost:3000';
 
-interface User{
-  userid: Number;
-  username: Text;
-  useremail: Text,
-  userrole: Text,
-  groups: [Number]
-}
+import { User } from '../objects/userallobj';
 
 @Component({
   selector: 'app-user',
@@ -27,22 +21,22 @@ export class UserComponent implements OnInit {
   newusername = '';
   newuserpassword = '';
   newuseremail = '';
-
-  username = sessionStorage.getItem('username');
   userlist: User[] = [];
+  
 
   public isCollapsed = true;  
 
   constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient, private _location: Location) { }
 
   ngOnInit(){
+    this.getUserlist();
+  }
+
+
+  getUserlist(){
     this.httpClient.get<[User]>(BACKEND_URL + '/userlist')
-    
-    .subscribe((data:any)=>
-      {
-
-        this.userlist = data;
-
+    .subscribe((data:any)=>{
+      this.userlist = data;
       }
     )
   }
@@ -54,8 +48,10 @@ export class UserComponent implements OnInit {
     this.refresh();
   }
 
-  refresh(): void {
-    window.location.reload();
+  refresh() {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/userlist']);
+    });
   }
 
   deleteUser(name: Text){
@@ -71,8 +67,4 @@ export class UserComponent implements OnInit {
     this._location.back();
   }
 
-  logout(){
-    window.sessionStorage.clear();
-    this.router.navigateByUrl("");
-  }
 }

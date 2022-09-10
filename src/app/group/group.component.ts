@@ -2,21 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Channel } from '../objects/channelobj';
+import { Groups } from '../objects/groupobj';
+import { BACKEND_URL } from '../backend';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json'})
 };
-const BACKEND_URL = 'http://localhost:3000';
-
-interface Channel {
-  channelid: Number;
-  members: [Number];
-}
-
-interface Groups {
-  groupid: Number;
-  channels: [Channel];
-}
 
 @Component({
   selector: 'app-group',
@@ -27,6 +19,7 @@ export class GroupComponent implements OnInit {
 
   username = sessionStorage.getItem('username');
   userrole = sessionStorage.getItem('userrole');
+
   id: Number = Number(this.route.snapshot.params['id']);
   groups: Groups[] = [];
 
@@ -39,6 +32,7 @@ export class GroupComponent implements OnInit {
 
   ngOnInit() {
     
+    sessionStorage.setItem('loggedin', 'yes');
     let userid: Number = this.id ;
 
     this.httpClient.get<Groups[]>(BACKEND_URL + '/groups/'+ userid)
@@ -63,21 +57,16 @@ export class GroupComponent implements OnInit {
     this.router.navigateByUrl("/userlist");
   }
 
-  loadchannel(id: Number){
-    this.router.navigateByUrl("/channel/"+id);
+  loadchannel(channelid: Number){
+    this.router.navigateByUrl("/channel/"+channelid);
   }
 
-  logout(){
-    window.sessionStorage.clear();
-    this.router.navigateByUrl("");
+  groupAddUser(groupid: Number){
+    this.router.navigateByUrl("/group/"+groupid+"/adduser");
   }
 
-  groupAddUser(id: Number){
-    this.router.navigateByUrl("/group/"+id+"/adduser");
-  }
-
-  channelAdduser(id: Number){
-    this.router.navigateByUrl("/channel/"+id+"/adduser");
+  channelAdduser(groupid: Number, channelid: Number){
+    this.router.navigateByUrl("/group/"+groupid+"/channel/"+channelid+"/adduser");
   }
 
 }

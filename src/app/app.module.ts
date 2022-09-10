@@ -11,6 +11,9 @@ import { ChannelComponent } from './channel/channel.component';
 import { UserComponent } from './user/user.component';
 import { GroupaddComponent } from './groupadd/groupadd.component';
 import { ChanneladdComponent } from './channeladd/channeladd.component';
+import { AuthService } from './auth/auth.service';
+import { HeaderComponent } from './header/header.component';
+import { AuthGuard } from './auth/auth.guard';
 
 
 @NgModule({
@@ -21,7 +24,8 @@ import { ChanneladdComponent } from './channeladd/channeladd.component';
     ChannelComponent,
     UserComponent,
     GroupaddComponent,
-    ChanneladdComponent
+    ChanneladdComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,7 @@ import { ChanneladdComponent } from './channeladd/channeladd.component';
     HttpClientModule,
     NgbModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,1 +1,46 @@
-<p>channeladd works!</p>
+<div class="flex-grow-1 d-flex flex-column px-5 py-2 rounded" style="background-color: rgb(229, 229, 229); ;min-height: 500px;" >
+    <div class="d-flex justify-content-between py-1 w-50">
+        <div class="">
+            <button class="btn btn-warning d-flex justify-content-center px-2" (click)="back()">
+                <span class="material-symbols-outlined">chevron_left</span>
+                <span>Back</span>
+            </button>
+        </div>  
+        <div class="d-flex flex-column justify-content-center">
+            Channel {{channel.channelid}}
+        </div>  
+    </div>
+
+    <div *ngFor="let user of userlist" class="d-flex flex-column my-1 bg-light rounded border border-primary">
+        <div class="d-flex justify-content-between py-1 bg-light rounded-top"> 
+            <div class="align-self-center px-2 mx-2">
+               {{user.username}}
+            </div>
+            <div class="d-flex">
+                <div class="px-1">
+                    <button class="btn btn-danger d-flex justify-content-center" >
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <div class="border border-secondary bg-light w-100 rounded h-auto mb-2 mt-2 align-self-center">
+        <form>
+            <div class="d-flex  my-2 mx-4">
+                <div class="form-group d-flex flex-column justify-content-center mx-1">
+                    Username
+                </div>   
+                <div class="form-group d-flex flex-column align-items-center mx-1 flex-grow-1 w-50">
+                    <select class="form-control" name="newusername" [(ngModel)]="newuserid">
+                        <option *ngFor="let member of nonmembers" value={{member.userid}}>{{member.username}}</option>
+                    </select>
+                </div>
+                <div class="form-group d-flex flex-column align-items-center justify-content-end flex-grow-1 w-25">
+                    <button type="submit" class="btn btn-success btn-block w-100" (click)="addmember()">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
