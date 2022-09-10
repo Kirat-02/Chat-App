@@ -1,4 +1,5 @@
 **1.	Organization of Git Repository**
+
 A git repository with the title of Chat App was created for this project. Regular commits were made to the repository after the completion of a feature for each component. New branches were made for adding features such as adding user to channel or group that were eventually merged after the branch was a success.
     1.	The src folder contains the node application.
     2.	The server folder contains the server information.
@@ -6,6 +7,7 @@ A git repository with the title of Chat App was created for this project. Regula
     4.	All the packages and modules have been saved by using –save command to make it easier to set the project locally easily.
     
 **2. Data Structures**
+
 The following data structures have been used in the application
 
 Client Side:
