@@ -1,4 +1,4 @@
 export interface Channel {
-    channelid: Number;
+    id: Number;
     members: [Number];
 }

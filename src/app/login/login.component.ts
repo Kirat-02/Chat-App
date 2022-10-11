@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../auth/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { AppService } from '../service/app.service';
 import { Userobj } from '../objects/userobj';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-type': 'application/json'})
-};
-const BACKEND_URL = 'http://localhost:3000';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +11,26 @@ const BACKEND_URL = 'http://localhost:3000';
 })
 export class LoginComponent implements OnInit {
 
-  username = '';
-  password = '';
+  username: string="";
+  password: string="";
+  user: Userobj;
+  message: string;
 
-  constructor(private router:Router, private httpClient: HttpClient, private authService: AuthService) { }
+  constructor(private router: Router, private userdata: AppService) { }
 
   ngOnInit(): void {}
 
   submit(){
-    let user: Userobj = {username:this.username, userpassword: this.password};
-    this.authService.login(user);
+    this.userdata.login(this.username, this.password).subscribe((data)=>{
+      this.user = data;
+      if(data.length == 0){
+        this.message='Invalid Username or Password';
+      } else {
+        sessionStorage.setItem('userid', data[0].id);
+        sessionStorage.setItem('username', data[0].name.toString());
+        sessionStorage.setItem('userrole', data[0].role.toString());
+        this.router.navigateByUrl("/user/"+data[0].id);
+      }
+    })
   } 
 }

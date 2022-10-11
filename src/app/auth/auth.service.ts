@@ -24,7 +24,7 @@ export class AuthService {
 
   login(user: Userobj){
     
-    if (user.username !== '' && user.userpassword !== '' ) { 
+    if (user.name !== '' && user.password !== '' ) { 
 
       this.httpClient.post(BACKEND_URL + '/login', user,  httpOptions)
     
@@ -59,4 +59,5 @@ export class AuthService {
     this.router.navigateByUrl("/userlist");
   }
 
+ 
 }

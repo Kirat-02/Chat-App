@@ -1,4 +1,8 @@
 export interface Userobj {
-    username: string;
-    userpassword: string;
+    id: number;
+    name: string;
+    password: string;
+    email: string;
+    role: string;
+    groups: [];
 }

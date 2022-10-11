@@ -21,11 +21,19 @@
             </div>
             <div class="collapsible"  id="collapsegroup" [ngbCollapse]="GroupisCollapsed" class="border border-secondary bg-light rounded h-auto mb-2 mt-2">
                 <form>
-                    <div class="form-group d-flex align-items-center px-2">
+                    <div class="form-group align-items-center px-2">
                         <label class="form-label mx-1">Group Name</label>
                         <input type="text" name="username" [(ngModel)]="newgroupname" class="form-control"/>
-                        <button type="submit" class="btn btn-success d-flex justify-content-center mx-1" (click)="addGroup()">
+                        <label class="form-label mx-1">Group ID</label>
+                        <input type="number" name="id" [(ngModel)]="newgroupid" class="form-control"/>
+                        <div *ngIf="message != null" >
+                            <p class="p-1 my-1 mx-auto text-center text-white bg-danger rounded w-25">
+                                {{message}}
+                            </p>
+                        </div>
+                        <button type="submit" class="btn btn-success d-flex justify-content-center my-2" (click)="addGroup()">
                             <span class="material-symbols-outlined">add</span> 
+                            Add Group
                         </button>
                     </div>
                 </form>
@@ -35,7 +43,7 @@
            
                 <div class="d-flex justify-content-between py-1 bg-info rounded-top"> 
                     <div class="align-self-center px-2">
-                        Group {{ group.groupid }}     
+                        {{ group.name ?? 'Group '+group.id  }}     
                     </div>
                     <div *ngIf="userrole=='super' || userrole=='admin'" class="d-flex">
                         <div class="px-1" hidden>
@@ -44,12 +52,12 @@
                             </button>
                         </div>        
                         <div class="px-1">
-                            <button (click)="groupAddUser(group.groupid)" class="btn btn-primary d-flex justify-content-center">
+                            <button (click)="groupAddUser(group.id)" class="btn btn-primary d-flex justify-content-center">
                                 <span class="material-symbols-outlined">group_add</span>
                             </button>
                         </div>
                         <div class="px-1">
-                            <button class="btn btn-danger d-flex justify-content-center">
+                            <button (click)="deleteGroup(group.id)" class="btn btn-danger d-flex justify-content-center">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>
                         </div>
@@ -61,7 +69,7 @@
                     <div class="align-self-center px-1">Channel {{ i+1 }} </div>
                     <div class="d-flex">
                         <div *ngIf="userrole!='user'" class="px-1">
-                            <button (click)="channelAdduser(group.groupid, channel.channelid)" class="btn btn-primary d-flex justify-content-center">
+                            <button (click)="channelAdduser(group.id, channel.id)" class="btn btn-primary d-flex justify-content-center">
                                 <span class="material-symbols-outlined">group_add</span>
                             </button>
                         </div>
@@ -71,7 +79,7 @@
                             </button>
                         </div>
                         <div  *ngIf="channel.members.includes(id)" class="px-1">
-                            <button class="btn btn-warning d-flex justify-content-center" (click)="loadchannel(channel.channelid)">
+                            <button class="btn btn-warning d-flex justify-content-center" (click)="loadchannel(channel.id)">
                                 <span class="material-symbols-outlined">chevron_right</span>
                             </button>
                         </div>   
@@ -81,7 +89,7 @@
                 <div *ngIf="userrole !='user'" class="d-flex justify-content-start py-2  w-75 align-self-center bg-light rounded-bottom"> 
                 
                     <div class="px-1">
-                        <button class="btn btn-success d-flex justify-content-center" (click)="addChannel(group.groupid)">
+                        <button class="btn btn-success d-flex justify-content-center" (click)="addChannel(group.id)">
                             <span class="material-symbols-outlined">
                                 add
                             </span> 

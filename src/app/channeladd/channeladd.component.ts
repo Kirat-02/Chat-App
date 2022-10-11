@@ -25,7 +25,7 @@ export class ChanneladdComponent implements OnInit {
   userrole = sessionStorage.getItem('userrole');
   userlist: User[] = [];
   nonmembers: User[] = [];
-  channel: Channel = {'channelid': 0, members: [0]};
+  channel: Channel = {'id': 0, members: [0]};
   newuserid = '';
 
   constructor(private router:Router, private _location: Location, private httpClient: HttpClient, private route: ActivatedRoute) { }

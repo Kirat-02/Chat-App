@@ -1,42 +1,93 @@
-var express = require('express');
-var app = express();
+// Import the modules required
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const bodyParser = require ('body-parser');
+const cors = require('cors');
+const MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 
-fs = require('fs'),
-http = require('http'),
-    PORT = 3001,
-    PORT2 = 8888;
-
-
-var cors = require('cors');
+// use the modules
 app.use(cors());
-
-var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// url of the mongodb server
+const url = 'mongodb://localhost:27017/';
 
-var http = require("http").Server(app);
+// Start the client
+MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true},function(err, client) {
+    
+    if (err) {return console.log(err)}
 
-var server = http.listen(3000, function(){
-    console.log("Server listening on port 3000");
+        const dbName = 'chatApp';
+        const db = client.db(dbName);
+
+        // Login 
+        require('./routes/api-login.js')(db, app);
+
+        // Group Details 
+        require('./routes/api-getgroups.js')(db, app);
+
+        // user list
+        require('./routes/api-getuserlist.js')(db, app);
+
+        // add new user
+        require('./routes/api-adduser.js')(db, app);
+
+        // update user to super
+        require('./routes/api-updateuser.js')(db, app);
+
+        // delete user
+        require('./routes/api-deleteuser.js')(db, app);
+
+        // add a new group
+        require('./routes/api-addgroup.js')(db, app);
+
+        // delete the group
+        require('./routes/api-deletegroup.js')(db, app);
+
+        // gets members of a group
+        require('./routes/api-getgroupmembers.js')(db, app);
+
+        // adds user to group
+        require('./routes/api-addusergroup.js')(db, app);
+
+        // removes user from group
+        require('./routes/api-deleteusergroup.js')(db, app);
+
+        // upgrades user to group assistant
+        require('./routes/api-groupAssistant.js')(db, app);
+
+        // upgrades user to group admin
+        require('./routes/api-groupAdmin.js')(db, app);
+
+        // add a new channel
+        require('./routes/api-newchannel.js')(db, app);
+
+        // delete a channel
+
+
+
+        /*
+        // user add and delete
+        require('./routes/api-adduser.js')(db, app);
+        require('./routes/api-deleteuser.js')(db, app);
+
+        // channel details
+        require('./routes/api-userchannels.js')(db, app);
+
+        // messages
+
+        require('./routes/api-add.js')(db,app);
+        require('./routes/api-prodcount.js')(db,app);
+        require('./routes/api-validid.js')(db,app);
+        require('./routes/api-getlist.js')(db,app);
+        require('./routes/api-getitem.js')(db, app);
+        require('./routes/api-update.js') (db, app);
+        require('./routes/api-deleteitem.js') (db,app, ObjectID); */
+
 });
 
-// login and getting user setting
-app.post('/login', require('./router/authenticate'));
-app.get('/groups/:userid', require('./router/groups'));
-
-// user methods
-app.get('/userlist', require('./router/users'));
-app.post('/adduser', require('./router/addUser'));
-app.delete('/deleteuser/:name', require('./router/deleteUser'));
-
-// channel messages list
-app.get('/channels/:channelid', require('./router/channel'));
-app.post('/channels/:channelid/newmessage', require('./router/newMessage'));
-
-// routes to view and add members to groups and channels
-app.get('/:type/:groupid/members', require('./router/members'));
-app.get('/group/:groupid/:type/:channelid/members', require('./router/members'));
-
-app.post('/:type/:groupid/addmember', require('./router/addmember'));
-app.post('/group/:groupid/:type/:channelid/addmember', require('./router/addmember'));
+module.exports = app.listen(3000, () =>{
+    console.log("Server is listening on port 3000");
+});

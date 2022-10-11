@@ -8,7 +8,7 @@
             </button>
         </div>  
         <div class="d-flex flex-column justify-content-center">
-            Group {{group.groupid}}
+            {{group.name ?? "Group "+group.id}}
         </div>  
         <div class="">
             <button (click)="groupAddisCollapsed = !groupAddisCollapsed" [attr.aria-expanded]="!groupAddisCollapsed" aria-controls="collapseadduser" class="btn btn-success d-flex justify-content-center px-2">
@@ -20,50 +20,37 @@
 
     <div class="collapsible"  id="collapseadduser" [ngbCollapse]="groupAddisCollapsed" class="border border-secondary bg-light rounded h-auto mb-2 mt-2">
         <form>
-            <div class="d-flex  my-2 mx-4">
-                <div class="form-group d-flex flex-column align-items-center mx-1 flex-grow-1">
-                    <label class="form-label">Username</label>
-                    <select class="form-control" name="newusername" [(ngModel)]="newuserid">
-                        <option *ngFor="let member of nonmembers" value={{member.userid}}>{{member.username}}</option>
+                <div class="form-group d-flex flex-row align-items-center mx-1 flex-grow-1">
+                    <label class="form-label m-1">Username</label>
+                    <select class="form-control" name="newusername m-1" [(ngModel)]="newuserid">
+                        <option *ngFor="let member of nonmembers" value={{member.id}}>{{member.name}}</option>
                     </select>
+                    <button type="submit" class="btn btn-success btn-block w-25 m-1" (click)="addmember()">Add</button>
                 </div>
-                <div class="form-group d-flex flex-column align-items-center mx-1 flex-grow-1">
-                    <label class="form-label">Role</label>
-                    <select class="form-control" name="newuserrole" [(ngModel)]="newuserrole">
-                    <option value="normal" selected>Normal User</option>
-                    <option value="assistant">Group Assistant</option>
-                    </select>
-                </div>
-                <div class="form-group d-flex flex-column align-items-center justify-content-end flex-grow-1">
-                    <button type="submit" class="btn btn-success btn-block w-100" (click)="addmember()">Add</button>
-                </div>
-
-            </div>
-         
         </form>
     </div>
 
     <div *ngFor="let user of userlist" class="d-flex flex-column my-1 bg-light rounded border border-primary">
         <div class="d-flex justify-content-between py-1 bg-light rounded-top"> 
             <div class="align-self-center px-2 mx-2">
-               {{ user.username }}
+               {{ user.name }} : {{user.role}}
             </div>
-            <div class="d-flex" *ngIf="userrole=='super' || userrole=='admin'">
-                <div class="form-group">
-                    <select class="form-control">
-                    <option>Group Assistant</option>
-                    <option selected>Normal User</option>
-                    </select>
-                </div>
-
-                <div class="px-1">
-                    <button class="btn btn-success d-flex justify-content-center">
-                        <span class="material-symbols-outlined">save</span>
+            <div class="d-flex" *ngIf="this.userrole=='super' || this.userrole=='admin'">
+        
+                <div class="px-1" *ngIf="group.members.includes(user.id) && !group.admins.includes(user.id) && !group.assistant.includes(user.id)">
+                    <button (click)="upgradeAssistant(user.id)" class="btn btn-success d-flex justify-content-center">
+                        <span>Upgrade Assistant</span>
                     </button>
                 </div>
     
+                <div class="px-1" *ngIf="group.assistant.includes(user.id) && !group.admins.includes(user.id)">
+                    <button (click)="upgradeAdmin(user.id)" class="btn btn-success d-flex justify-content-center">
+                        <span>Upgrade Admin</span>
+                    </button>
+                </div>
+
                 <div class="px-1">
-                    <button class="btn btn-danger d-flex justify-content-center" >
+                    <button (click)="deleteUser(user.id)" class="btn btn-danger d-flex justify-content-center">
                         <span class="material-symbols-outlined">delete</span>
                     </button>
                 </div>

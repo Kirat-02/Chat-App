@@ -1,9 +1,10 @@
 import { Channel } from "./channelobj";
 
 export interface Groups {
-    groupid: Number;
+    id: Number,
+    name: String,
     members:[Number],
-    admin: [Number],
+    admins: [Number],
     assistant: [Number],
-    channels: [Channel];
+    channels: [Channel]
 }

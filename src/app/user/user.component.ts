@@ -4,29 +4,29 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Location} from '@angular/common';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-type': 'application/json'})
-};
-const BACKEND_URL = 'http://localhost:3000';
-
-import { User } from '../objects/userallobj';
+import { AppService } from '../service/app.service';
+import { Userobj } from '../objects/userobj';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
+
 export class UserComponent implements OnInit {
 
   userrole = sessionStorage.getItem('userrole');
   newusername = '';
   newuserpassword = '';
   newuseremail = '';
-  userlist: User[] = [];
+  newuserrole = '';
+  errormsg: string = "";
+  newuserid: number = null;
+  userlist: Userobj[] = [];
 
   public isCollapsed = true;  
 
-  constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient, private _location: Location) { }
+  constructor(private service: AppService, private router:Router, private route: ActivatedRoute, private _location: Location) { }
 
   ngOnInit(){
     this.getUserlist();
@@ -34,18 +34,27 @@ export class UserComponent implements OnInit {
 
 
   getUserlist(){
-    this.httpClient.get<[User]>(BACKEND_URL + '/userlist')
-    .subscribe((data:any)=>{
+    this.service.getuserlist().subscribe((data)=>{
       this.userlist = data;
-      }
-    )
+    }) 
   }
 
-  addUser(){
-    let userdetails = {username:this.newusername, email: this.newuseremail, password: this.newuserpassword};
-    this.httpClient.post(BACKEND_URL + '/adduser', userdetails, httpOptions)
-    .subscribe((data:any)=>{});
-    this.refresh();
+  addUser = () => {
+    let user: Userobj = {id: this.newuserid, name: this.newusername, email: this.newuseremail, password: this.newuserpassword, role: this.newuserrole, groups: []}
+    this.service.adduser(user).subscribe((data)=>{
+      if(data.err != null){
+        this.errormsg = data.err;
+      } else {
+        this.refresh();
+      }
+    }) 
+  }
+
+  updateUser = (id:number) => {
+    let user = {id: id}
+    this.service.updateuser(user).subscribe((data)=>{
+      this.refresh();
+    }) 
   }
 
   refresh() {
@@ -54,12 +63,15 @@ export class UserComponent implements OnInit {
     });
   }
 
-  deleteUser(name: Text){
+  
+  deleteUser(id:number){
 
-    if (window.confirm("Do you reallt want to delete "+name+ "?")) {
-      this.httpClient.delete(BACKEND_URL + '/deleteuser/'+ name)
-    .subscribe((data:any)=> {});
-    this.refresh();
+    if (window.confirm("Do you reallt want to delete this user ?")) {
+      let user = {id: id}
+      this.service.deleteuser(user).subscribe((data)=>{
+        this.refresh();
+      }) 
+      this.refresh();
     } 
   }
 

@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BACKEND_URL } from '../backend';
 import { Location } from '@angular/common';
+
+import { AppService } from '../service/app.service';
 
 // Objects 
 import { Groups } from '../objects/groupobj';
 import { Channel } from '../objects/channelobj';
 import { User } from '../objects/userallobj';
+import { Userobj } from '../objects/userobj';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-type': 'application/json'})
-};
+
 
 @Component({
   selector: 'app-groupadd',
@@ -23,26 +23,25 @@ export class GroupaddComponent implements OnInit {
 
   username = sessionStorage.getItem('username');
   userrole = sessionStorage.getItem('userrole');
+
   groupid: Number = Number(this.route.snapshot.params['groupid']);
-  channel: Channel = {'channelid': 0, "members": [0] };
-  group: Groups = {'groupid': 0, 'members': [0], 'admin': [0], 'assistant': [0], 'channels': [this.channel] };
-  userlist: User[] = [];
-  nonmembers: User[] = [];
+  channel: Channel = {'id': 0, "members": [0] };
+  group: Groups;
+  userlist: Userobj[];
+  nonmembers: Userobj[] = [];
   newuserid = '';
   newuserrole = 'normal';
   
   public groupAddisCollapsed = true;  
 
-  constructor(private router:Router, private _location: Location, private httpClient: HttpClient, private route: ActivatedRoute) { }
+  constructor(private router:Router, private _location: Location, private service: AppService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.httpClient.get<[Groups[], User[], User[]]>(BACKEND_URL + '/group/'+this.groupid+'/members')
-      .subscribe((data:any)=>{
-        this.group = data[0];
-        this.userlist = data[1];
-        this.nonmembers = data[2];
-      }
-    ) 
+    this.service.getGroupMembers(this.groupid).subscribe(data=>{
+      this.group = data.group[0];
+      this.userlist = data.members;
+      this.nonmembers = data.nonmembers;
+    })
   }
 
   refresh() {
@@ -51,15 +50,37 @@ export class GroupaddComponent implements OnInit {
     });
   }
 
+  // used to add new member to group
   addmember(){
-    if(this.newuserid != '' && this.newuserrole != ''){
-      let newuser = {'userid': this.newuserid, 'userrole': this.newuserrole};
-      this.httpClient.post(BACKEND_URL + '/group/'+this.groupid+'/addmember', newuser, httpOptions)
-      .subscribe((data:any)=>{});
-      this.refresh();  
-    }
+    var userid = this.newuserid;
+    var data = {groupid: this.groupid, userid: parseInt(userid)}
+    console.log(data)
+    this.service.addUserGroup(data).subscribe()
+    this.refresh()
   }
 
+  // removes a user from group
+  deleteUser(userid: Number){
+    var data = {groupid: this.groupid, userid: userid}
+    this.service.deleteUserGroup(data).subscribe()
+    this.refresh()
+  }
+
+  // used to upgrade user to Group Assistant
+  upgradeAssistant(userid: Number){
+    var data = {groupid: this.groupid, userid: userid}
+    this.service.upgradeAssistant(data).subscribe()
+    this.refresh()
+  }
+
+  // used to upgrade group assistant to group admin
+  upgradeAdmin(userid: Number){
+    var data = {groupid: this.groupid, userid: userid}
+    this.service.upgradeAdmin(data).subscribe()
+    this.refresh()
+  }
+
+  // takes back to previous page
   back(){
     this._location.back();
   }

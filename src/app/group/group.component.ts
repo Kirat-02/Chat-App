@@ -6,6 +6,8 @@ import { Channel } from '../objects/channelobj';
 import { Groups } from '../objects/groupobj';
 import { BACKEND_URL } from '../backend';
 
+import { AppService } from '../service/app.service';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json'})
 };
@@ -24,33 +26,46 @@ export class GroupComponent implements OnInit {
   groups: Groups[] = [];
 
   newgroupname = '';
+  newgroupid: number;
+
+  message: string;
 
   public GroupisCollapsed = true;
   public ChannelisCollapsed = true;
 
-  constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient) { }
+  constructor(private router:Router, private route: ActivatedRoute, private service: AppService) { }
 
   ngOnInit() {
-    
     sessionStorage.setItem('loggedin', 'yes');
     let userid: Number = this.id ;
-
-    this.httpClient.get<Groups[]>(BACKEND_URL + '/groups/'+ userid)
-    
-      .subscribe((data:any)=>{
-
-        this.groups = data;
-
-      }
-    )
+    this.service.getgroups().subscribe((data)=>{
+      this.groups = data;
+    })
   }
 
   addChannel(groupid: Number){
-    console.log(groupid);
+    this.service.newChannel(groupid).subscribe({})
+    window.location.reload()
   }
 
+  // Used to add a new Group
   addGroup(){
-    console.log("Group Added");
+    var group = {id: this.newgroupid, name: this.newgroupname}
+    this.service.addgroup(group).subscribe((data) =>{
+      if(data.err != null){
+        this.message = data.err;
+      } else {
+        window.location.reload();
+      }
+    })
+  }
+
+  // used to delete the group
+  deleteGroup(id: Number){
+    var group = {id: id}
+    this.service.deletegroup(group).subscribe((data)=>{
+      window.location.reload();
+    })
   }
 
   loaduserlist(){
