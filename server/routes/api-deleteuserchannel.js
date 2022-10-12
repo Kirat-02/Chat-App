@@ -1,11 +1,11 @@
 module.exports = function(db, app){
-    app.post('/api/addchannelmember',function(req,res){
+    app.post('/api/deletechannelmember',function(req,res){
 
         // gets the user data
         userid = parseInt(req.body.memberid);
         channelid =  parseInt(req.body.channelid);
     
-        // operation to add user to channel
+        // operation to delete user from channel
         const collection = db.collection('groups');
 
         // get the current channels
@@ -15,7 +15,10 @@ module.exports = function(db, app){
             channels = data[0].channels;
             channelData = channels.filter(channel=> channel.id == channelid);
             newchanneldata = channelData[0].members
-            newchanneldata.push(userid)
+            const index = newchanneldata.indexOf(userid);
+            if (index > -1) { // only splice array when item is found
+                newchanneldata.splice(index, 1); // 2nd parameter means remove one item only
+            }
             collection.updateOne({channels: {$elemMatch: {id: channelid}}}, {$set: {
                 'channels.$.members': newchanneldata,
                 'channels.$.id': channelid

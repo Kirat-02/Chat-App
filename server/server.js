@@ -73,6 +73,9 @@ MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true}, funct
         // used to add user to a channel
         require('./routes/api-adduserchannel')(db, app);
 
+        // used to remove user from channel
+        require('./routes/api-deleteuserchannel')(db, app);
+
 
         /*
         // user add and delete

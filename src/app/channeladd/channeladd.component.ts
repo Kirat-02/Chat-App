@@ -46,15 +46,14 @@ export class ChanneladdComponent implements OnInit {
 
   // adds a member to channel
   addmember(){
-    this.service.addChannelMember(this.newuserid, this.channelid).subscribe(()=>{
-      this.refresh();
-    })
-   
+    this.service.addChannelMember(this.newuserid, this.channelid).subscribe();
+    window.location.reload();
   }
 
   // deletes a member from channel
   deletemember(memberid: Number){
-    console.log(memberid)
+    this.service.deleteChannelMember(memberid, this.channelid).subscribe();
+    window.location.reload();
   }
 
   back(){

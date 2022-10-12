@@ -22,9 +22,11 @@ module.exports = function(db, app){
             // non members
             nonMembers = groupMembers.filter(x => !channelMembers.includes(x))
 
+            // used to find group members
             collection2.find({ id : { $in : channelMembers }}).toArray((err, data)=>{
                 members = data;
 
+                // used to find non members
                 collection2.find({ id : { $in : nonMembers }}).toArray((err, data)=>{
 
                     nonmembers = data;
