@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const url = 'mongodb://localhost:27017/';
 
 // Start the client
-MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true},function(err, client) {
+MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true}, function(err, client) {
     
     if (err) {return console.log(err)}
 
@@ -65,7 +65,13 @@ MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true},functi
         require('./routes/api-newchannel.js')(db, app);
 
         // delete a channel
+        require('./routes/api-deletechannel.js')(db, app);
 
+        // channel users list
+        require('./routes/api-loadchannelmembers')(db, app);
+
+        // used to add user to a channel
+        require('./routes/api-adduserchannel')(db, app);
 
 
         /*
