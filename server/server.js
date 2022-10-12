@@ -76,24 +76,11 @@ MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true}, funct
         // used to remove user from channel
         require('./routes/api-deleteuserchannel')(db, app);
 
+        // used to get all messages in a chat
+        require('./routes/api-getmessages')(db, app);
 
-        /*
-        // user add and delete
-        require('./routes/api-adduser.js')(db, app);
-        require('./routes/api-deleteuser.js')(db, app);
-
-        // channel details
-        require('./routes/api-userchannels.js')(db, app);
-
-        // messages
-
-        require('./routes/api-add.js')(db,app);
-        require('./routes/api-prodcount.js')(db,app);
-        require('./routes/api-validid.js')(db,app);
-        require('./routes/api-getlist.js')(db,app);
-        require('./routes/api-getitem.js')(db, app);
-        require('./routes/api-update.js') (db, app);
-        require('./routes/api-deleteitem.js') (db,app, ObjectID); */
+        // used to add a new message in a chat
+        require('./routes/api-addmessage')(db, app);
 
 });
 

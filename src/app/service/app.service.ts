@@ -94,11 +94,13 @@ export class AppService {
     return this.http.get<[Channel, Userobj[], Userobj[]]>('http://localhost:3000/api/group/'+groupid+'/channelusers/'+channelid);
   }
 
+  // add member to the channel
   addChannelMember(memberid: Number, channelid: Number){
     var data =  {memberid: memberid, channelid: channelid}
     return this.http.post<any>('http://localhost:3000/api/addchannelmember/', data);
   }
 
+  // deletes the member from channel
   deleteChannelMember(memberid: Number, channelid: Number){
     var data =  {memberid: memberid, channelid: channelid}
     return this.http.post<any>('http://localhost:3000/api/deletechannelmember/', data);
@@ -108,4 +110,15 @@ export class AppService {
   loadChannel(channelid: Number){
     return this.http.get<any>('http://localhost:3000/api/loadchannel/'+channelid);
   }
+
+  // get the current messages in channel
+  loadMessages(channelid: Number){
+    return this.http.get<any>('http://localhost:3000/api/getmessages/'+channelid);
+  }
+
+  // add new message to the channel
+  addMessage(data: any){
+    return this.http.post<any>('http://localhost:3000/api/addmessage', data);
+  }
+
 }

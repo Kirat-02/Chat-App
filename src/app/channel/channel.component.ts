@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Location} from '@angular/common';
+import { AppService } from '../service/app.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json'})
@@ -25,39 +26,34 @@ const BACKEND_URL = 'http://localhost:3000';
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.css']
 })
+
 export class ChannelComponent implements OnInit {
 
+  // list of varibales used in this file
   username = sessionStorage.getItem('username');
   userid = Number(sessionStorage.getItem('userid'));
   channelid: Number = Number(this.route.snapshot.params['channelid']);
   messages: Message[]= [];
   message = '';
 
-  constructor(private router:Router, private route: ActivatedRoute, private httpClient: HttpClient, private _location: Location) { }
+  constructor(private route: ActivatedRoute, private _location: Location, private service: AppService) { }
 
   ngOnInit(){
-    this.httpClient.get<Messages[]>(BACKEND_URL + '/channels/'+this.channelid)
+    this.service.loadMessages(this.channelid)
       .subscribe((data:any)=>{
-       this.messages = data.messages;
+        if(data.length != 0){
+          this.messages = data[0].messages;
+        }
       }
     ) 
   }
 
   sendMessage(){
     if(this.message != null){
-      let newmessage = {userid:this.userid, message: this.message};
-      this.httpClient.post(BACKEND_URL + '/channels/'+this.channelid+'/newmessage', newmessage, httpOptions)
-        .subscribe((data:any)=>{
-        }
-      ) 
+      var data = {channelid: this.channelid, userid: this.userid, messgae: this.message};
+      this.service.addMessage(data).subscribe(
+      )
     }
-    this.refresh();
-  }
-
-  refresh() {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['channel/'+this.channelid]);
-    });
   }
 
   back(){
