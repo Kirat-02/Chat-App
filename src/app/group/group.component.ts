@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Channel } from '../objects/channelobj';
 import { Groups } from '../objects/groupobj';
-import { BACKEND_URL } from '../backend';
-
 import { AppService } from '../service/app.service';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-type': 'application/json'})
-};
 
 @Component({
   selector: 'app-group',
@@ -25,16 +17,18 @@ export class GroupComponent implements OnInit {
   id: Number = Number(this.route.snapshot.params['id']);
   groups: Groups[] = [];
 
+  // variables
   newgroupname = '';
   newgroupid: number;
-
   message: string;
 
+  // collapse bar for group and channel
   public GroupisCollapsed = true;
   public ChannelisCollapsed = true;
 
   constructor(private router:Router, private route: ActivatedRoute, private service: AppService) { }
 
+  // get the ucrrent user data
   ngOnInit() {
     sessionStorage.setItem('loggedin', 'yes');
     let userid: Number = this.id ;
@@ -43,9 +37,26 @@ export class GroupComponent implements OnInit {
     })
   }
 
+  // adds a new channel
   addChannel(groupid: Number){
     this.service.newChannel(groupid).subscribe({})
     window.location.reload()
+  }
+
+  // deletes a channel
+  deleteChannel(groupid: Number, channelid: Number){
+    this.service.deleteChannel(groupid, channelid).subscribe({})
+    window.location.reload()
+  }
+
+  // load channel data
+  loadchannel(channelid: Number){
+    this.router.navigateByUrl("/channel/"+channelid);
+  }
+
+  // add user to channel
+  channelAdduser(groupid: Number, channelid: Number){
+    this.router.navigateByUrl("/group/"+groupid+"/channel/"+channelid+"/adduser");
   }
 
   // Used to add a new Group
@@ -68,20 +79,14 @@ export class GroupComponent implements OnInit {
     })
   }
 
+  // takes to userlist page
   loaduserlist(){
     this.router.navigateByUrl("/userlist");
   }
 
-  loadchannel(channelid: Number){
-    this.router.navigateByUrl("/channel/"+channelid);
-  }
-
+  // takes to group add user page
   groupAddUser(groupid: Number){
     this.router.navigateByUrl("/group/"+groupid+"/adduser");
-  }
-
-  channelAdduser(groupid: Number, channelid: Number){
-    this.router.navigateByUrl("/group/"+groupid+"/channel/"+channelid+"/adduser");
   }
 
 }

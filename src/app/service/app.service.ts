@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Userobj } from '../objects/userobj';
 import { Groups } from '../objects/groupobj';
+import { Channel } from '../objects/channelobj';
 
 @Injectable({
   providedIn: 'root'
@@ -77,10 +78,34 @@ export class AppService {
   }
 
   // create a new channel
-  newChannel(id: Number){
-    return this.http.post<any>('http://localhost:3000/api/newchannel/', id);
+  newChannel(groupid: Number){
+    var data = {id: groupid}
+    return this.http.post<any>('http://localhost:3000/api/newchannel/', data);
   }
 
+  // deletes a channel
+  deleteChannel(groupid: Number, channelid: Number){
+    var data = {groupid: groupid, channelid: channelid}
+    return this.http.post<any>('http://localhost:3000/api/deletechannel/', data);
+  }
 
+  // load channel current users
+  loadChannelUsers(groupid: Number, channelid: Number){
+    return this.http.get<[Channel, Userobj[], Userobj[]]>('http://localhost:3000/api/group/'+groupid+'/channelusers/'+channelid);
+  }
 
+  addChannelMember(memberid: Number, channelid: Number){
+    var data =  {memberid: memberid, channelid: channelid}
+    return this.http.post<any>('http://localhost:3000/api/addchannelmember/', data);
+  }
+
+  deleteChannelMember(memberid: Number, channelid: Number){
+    var data =  {memberid: memberid, channelid: channelid}
+    return this.http.post<any>('http://localhost:3000/api/deletechannelmember/', data);
+  }
+
+  // load channel data
+  loadChannel(channelid: Number){
+    return this.http.get<any>('http://localhost:3000/api/loadchannel/'+channelid);
+  }
 }

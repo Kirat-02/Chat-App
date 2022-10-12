@@ -14,11 +14,11 @@
     <div *ngFor="let user of userlist" class="d-flex flex-column my-1 bg-light rounded border border-primary">
         <div class="d-flex justify-content-between py-1 bg-light rounded-top"> 
             <div class="align-self-center px-2 mx-2">
-               {{user.username}}
+               {{user.name}}
             </div>
             <div  *ngIf="userrole !='user'" class="d-flex">
                 <div class="px-1">
-                    <button class="btn btn-danger d-flex justify-content-center" >
+                    <button (click)="deletemember(user.id)" class="btn btn-danger d-flex justify-content-center" >
                         <span class="material-symbols-outlined">delete</span>
                     </button>
                 </div>
@@ -34,7 +34,7 @@
                 </div>   
                 <div class="form-group d-flex flex-column align-items-center mx-1 flex-grow-1 w-50">
                     <select class="form-control" name="newusername" [(ngModel)]="newuserid">
-                        <option *ngFor="let member of nonmembers" value={{member.userid}}>{{member.username}}</option>
+                        <option *ngFor="let member of nonmembers" value={{member.id}}>{{member.name}}</option>
                     </select>
                 </div>
                 <div class="form-group d-flex flex-column align-items-center justify-content-end flex-grow-1 w-25">

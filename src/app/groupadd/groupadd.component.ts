@@ -36,6 +36,7 @@ export class GroupaddComponent implements OnInit {
 
   constructor(private router:Router, private _location: Location, private service: AppService, private route: ActivatedRoute) { }
 
+  // gets the group details, members and non members
   ngOnInit() {
     this.service.getGroupMembers(this.groupid).subscribe(data=>{
       this.group = data.group[0];
@@ -44,6 +45,7 @@ export class GroupaddComponent implements OnInit {
     })
   }
 
+  // triggers a refresh of the page
   refresh() {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['group/'+this.groupid+'/adduser']);
@@ -54,7 +56,6 @@ export class GroupaddComponent implements OnInit {
   addmember(){
     var userid = this.newuserid;
     var data = {groupid: this.groupid, userid: parseInt(userid)}
-    console.log(data)
     this.service.addUserGroup(data).subscribe()
     this.refresh()
   }

@@ -1,57 +1,60 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BACKEND_URL } from '../backend';
 import { Location } from '@angular/common';
+import { AppService } from '../service/app.service';
 
 // Objects
 import { Channel } from '../objects/channelobj';
-import { User } from '../objects/userallobj';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-type': 'application/json'})
-};
+import { Userobj } from '../objects/userobj';
 
 @Component({
   selector: 'app-channeladd',
   templateUrl: './channeladd.component.html',
   styleUrls: ['./channeladd.component.css']
 })
+
 export class ChanneladdComponent implements OnInit {
 
+  // Initiliase variables
   groupid: Number = Number(this.route.snapshot.params['groupid']);
   channelid: Number = Number(this.route.snapshot.params['channelid']);
   userrole = sessionStorage.getItem('userrole');
-  userlist: User[] = [];
-  nonmembers: User[] = [];
+  userlist: Userobj[] = [];
+  nonmembers: Userobj[] = [];
   channel: Channel = {'id': 0, members: [0]};
-  newuserid = '';
+  newuserid: Number;
 
-  constructor(private router:Router, private _location: Location, private httpClient: HttpClient, private route: ActivatedRoute) { }
+  constructor(private router:Router, private _location: Location, private route: ActivatedRoute, private service: AppService) { }
 
+  // gets the channels details, members and non members
   ngOnInit() {
-    this.httpClient.get<[Channel, User[], User[]]>(BACKEND_URL + '/group/'+this.groupid+'/channel/'+this.channelid+'/members')
-    .subscribe((data:any)=>{
+    this.service.loadChannelUsers(this.groupid, this.channelid).subscribe((data: any)=>{
+      console.log(data)
       this.channel = data[0];
       this.userlist = data[1];
       this.nonmembers = data[2];
-    }
-  ) 
+    }) 
   }
 
+  // used to trigger a refresh to the page
   refresh() {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['group/'+this.groupid+'/channel/'+this.channelid+'/adduser']);
     });
   }
 
+  // adds a member to channel
   addmember(){
-    if(this.newuserid != ''){
-      this.httpClient.post(BACKEND_URL + '/group/'+this.groupid+'/channel/'+this.channelid+'/addmember', {'userid': this.newuserid}, httpOptions)
-      .subscribe((data:any)=>{});
-      this.refresh(); 
-    }
+    this.service.addChannelMember(this.newuserid, this.channelid).subscribe(()=>{
+      this.refresh();
+    })
+   
+  }
+
+  // deletes a member from channel
+  deletemember(memberid: Number){
+    console.log(memberid)
   }
 
   back(){
