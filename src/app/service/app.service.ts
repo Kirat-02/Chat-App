@@ -4,6 +4,7 @@ import { Userobj } from '../objects/userobj';
 import { Groups } from '../objects/groupobj';
 import { Channel } from '../objects/channelobj';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,8 +29,8 @@ export class AppService {
   }
 
   // adds a new user 
-  adduser(user: Userobj){
-    return this.http.post<any>('http://localhost:3000/api/adduser', user);
+  adduser(data: any){
+    return this.http.post<any>('http://localhost:3000/api/adduser', data);
   }
 
   // updates user to super role
@@ -120,5 +121,9 @@ export class AppService {
   addMessage(data: any){
     return this.http.post<any>('http://localhost:3000/api/addmessage', data);
   }
-
+ 
+  // used to add image to channel
+  addMessageImage(data: any){
+    return this.http.post<any>('http://localhost:3000/api/addmessageimage', data);
+  }
 }

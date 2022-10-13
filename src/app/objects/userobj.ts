@@ -5,4 +5,5 @@ export interface Userobj {
     email: string;
     role: string;
     groups: [];
+    image: string;
 }

@@ -29,6 +29,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('userid', data[0].id);
         sessionStorage.setItem('username', data[0].name.toString());
         sessionStorage.setItem('userrole', data[0].role.toString());
+        if(data[0].image != undefined){
+          sessionStorage.setItem('userimage', data[0].image.toString());
+        }
         this.router.navigateByUrl("/user/"+data[0].id);
       }
     })

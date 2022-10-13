@@ -11,8 +11,12 @@ import { AppService } from '../service/app.service';
 })
 export class GroupComponent implements OnInit {
 
+  myImgUrl:string='assets/uploads/test.png';
+
   username = sessionStorage.getItem('username');
   userrole = sessionStorage.getItem('userrole');
+  userid = Number(sessionStorage.getItem('userid'));
+  userimage = sessionStorage.getItem('userimage');
 
   id: Number = Number(this.route.snapshot.params['id']);
   groups: Groups[] = [];

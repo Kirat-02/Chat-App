@@ -24,6 +24,8 @@ export class UserComponent implements OnInit {
   newuserid: number = null;
   userlist: Userobj[] = [];
 
+  uploadedFiles: Array < File > ;
+
   public isCollapsed = true;  
 
   constructor(private service: AppService, private router:Router, private route: ActivatedRoute, private _location: Location) { }
@@ -40,8 +42,15 @@ export class UserComponent implements OnInit {
   }
 
   addUser = () => {
-    let user: Userobj = {id: this.newuserid, name: this.newusername, email: this.newuseremail, password: this.newuserpassword, role: this.newuserrole, groups: []}
-    this.service.adduser(user).subscribe((data)=>{
+    let formData = new FormData();
+    let date = this.newuserid+'_'+Date.now() 
+    let user: Userobj = {id: this.newuserid, name: this.newusername, email: this.newuseremail, password: this.newuserpassword, role: this.newuserrole, groups: [], image: date}
+    const data = JSON.stringify(user)
+    formData.append('data', data);
+    for (var i = 0; i < this.uploadedFiles.length; i++) {
+        formData.append("files", this.uploadedFiles[i], date);
+    }
+    this.service.adduser(formData).subscribe((data)=>{
       if(data.err != null){
         this.errormsg = data.err;
       } else {
@@ -77,6 +86,10 @@ export class UserComponent implements OnInit {
 
   back(){
     this._location.back();
+  }
+
+  fileChange(element: any) {
+    this.uploadedFiles = element.target.files;
   }
 
 }

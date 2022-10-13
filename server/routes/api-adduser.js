@@ -1,9 +1,21 @@
+const multer  = require('multer')
+const storage = multer.diskStorage({ 
+    destination: '../src/assets/uploads', 
+      filename: (req, file, cb) => {
+          cb(null, file.originalname + '.jpeg')
+        }
+ })
+
+var upload = multer({ storage: storage })
+
 module.exports = function(db, app){
-    app.post('/api/adduser', function(req, res){
+    app.post('/api/adduser', upload.single("files"), (req, res)=>{
         if (!req.body) {
             return res.sendStatus(400)
         }
-        user = req.body;
+
+        user = JSON.parse(req.body.data)
+
         const collection = db.collection('users');
 
         if(user.id == null){

@@ -14,7 +14,10 @@ import { ChanneladdComponent } from './channeladd/channeladd.component';
 import { AuthService } from './auth/auth.service';
 import { HeaderComponent } from './header/header.component';
 import { AuthGuard } from './auth/auth.guard';
-
+import { SocketService } from './service/socket.service';
+import { VideoComponent } from './video/video.component';
+import { RoomComponent } from './room/room.component';
+import {SocketIoModule} from "ngx-socket-io";
 
 @NgModule({
   declarations: [
@@ -25,16 +28,21 @@ import { AuthGuard } from './auth/auth.guard';
     UserComponent,
     GroupaddComponent,
     ChanneladdComponent,
-    HeaderComponent
+    HeaderComponent,
+    VideoComponent,
+    RoomComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    SocketIoModule.forRoot({
+      url: '/'
+    })
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

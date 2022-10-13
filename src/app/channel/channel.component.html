@@ -1,40 +1,93 @@
-
-        <div class="flex-grow-1 d-flex flex-column px-5 py-2 rounded" style="min-height:600px; background-color: rgb(229, 229, 229);" >
-            <div class="d-flex justify-content-between py-1">
-                <div class="">
-                    <button class="btn btn-warning d-flex justify-content-center px-2" (click)="back()">
-                        <span class="material-symbols-outlined">chevron_left</span>
-                        <span>Back</span>
-                    </button>
-                </div>  
-            </div>
-            <div class="border border-secondary flex-grow-1 bg-light rounded mb-4 d-flex flex-column justify-content-between" >
-                <div *ngIf="messages.length == 0"  class="d-flex justify-content-center py-2 align-self-center"> 
-                    <div class="px-2 py-1 my-1 rounded bg-secondary">
-                        No Messages Yet
+        <div class="flex-grow-1 d-flex flex-column px-5 py-2 rounded" style="height:500px; background-color: rgb(229, 229, 229);" >
+            <div class="d-flex justify-content-between py-1">   
+                <div class="w-50 d-flex justify-content-between">
+                    <div class="">
+                        <button class="btn btn-warning d-flex justify-content-center px-2" (click)="back()">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                            <span>Back</span>
+                        </button>
+                        
+                    </div>
+                    <div class="my-auto">  
+                        Channel {{channelid}}
                     </div>
                 </div>
-                <div class="d-flex flex-column justify-content-end flex-grow-1 ">
-                    <div class="p-2">
-                        <div *ngFor="let message of messages" class="d-flex justify-content-between py-2 align-self-center"> 
-                            <div *ngIf="message.userid != userid" class="px-2 py-1 my-1 rounded" style="float:left; background-color: rgb(146, 185, 245); margin-right: auto;">
-                                {{message.message}}
-                            </div>    
-                            <br>
-                            <div *ngIf="message.userid == userid" class="rounded px-2 py-1 my-1 mx-2" style="float: right; background-color: rgb(147, 249, 167); margin-left: auto;">
-                                {{message.message}}
-                            </div>  
+                <div class="d-flex justify-content-end w-50">
+                    <div class="my-auto w-auto">  
+                        <div *ngIf="leftMessage.length != 0">
+                            <div *ngIf="leftMessage[0].channelid == channelid" class="d-flex justify-content-center btn btn-light">
+                                <span class="material-symbols-outlined">person</span>
+                                <div class="my-auto px-1">
+                                    {{leftMessage[0].name}} 
+                                </div>
+                            </div>
                         </div> 
                     </div>
-                    <form>    
-                        <div class="d-flex p-2">
-                            <input type="text" name="message" [(ngModel)]="message"  class="form-control form-control-lg" />
-                            <button type="submit" class="btn btn-primary btn-lg btn-block mx-2 d-flex flex-column justify-content-center" (click)="sendMessage()">
-                                <span class="material-symbols-outlined">send</span>
-                            </button>
+                    <button type="submit" class="btn btn-primary btn btn-block mx-1 d-flex flex-column justify-content-center" (click)="startVideo()">
+                        <span class="material-symbols-outlined">
+                            videocam
+                        </span>
+                    </button>
+                </div>
+               
+            </div>
+            <div class="border border-secondary flex-grow-1 bg-light rounded mb-4 d-flex flex-column justify-content-between" >
+                <div *ngIf="messages.length == 0" >
+                    <div  class="d-flex justify-content-center py-2 align-self-center" > 
+                        <div class="px-2 py-1 my-1 rounded bg-secondary">
+                            No Messages Yet
                         </div>
-                    </form>
+                    </div>
+                </div>
+                
+                <div *ngIf="messages.length != 0"  class="d-flex flex-column justify-content-end flex-grow-1 ">
+                    <div class="p-2" style="height: 350px; overflow-y: auto; display: flex; flex-direction: column-reverse;">
+                        <div *ngFor="let message of messages" class="w-full"> 
+                            <div *ngIf="message.channelid == channelid" class="d-flex justify-content-between py-2 align-self-center">
+                                <div *ngIf="message.userid != userid" class="d-flex flex-column img-thumbnail" style="float:left; background-color: rgb(146, 185, 245); margin-right: auto;" >
+                                    <div *ngIf="message.type == 'image'">
+                                        <img [src]='"assets/chat/"+message.image+".png"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 200px; height: 200px;" class="rounded mb-2" />
+                                    </div>
+                                    <div class="d-flex flex-row ">
+                                        <img [src]='"assets/uploads/"+message.userid+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'"  style="width: 60px; height: 60px;" class="rounded-circle my-auto" />
+                                        <div class="py-1 px-2 my-1 d-flex d-flex flex-column flex-grow-1">
+                                            <div class="text-end">{{message.message}} </div>
+                                            <div class="text-end">- {{message.username ?? message.userid}}</div>
+                                        </div> 
+                                    </div>
+                                </div>    
+                                <br>
+                                <div *ngIf="message.userid == userid" class="d-flex flex-column rounded px-2 py-1 my-1 mx-2" style="float: right; background-color: rgb(147, 249, 167); margin-left: auto;">
+                                    <div *ngIf="message.type == 'image'">
+                                        <img [src]='"assets/chat/"+message.image+".png"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 200px; height: 200px;" class="rounded mb-2" />
+                                    </div>
+                                   
+                                    <div class="d-flex flex-row">
+                                        <div class="py-1 px-2 my-1 flex-grow-1">
+                                            <div>{{message.message}}</div>
+                                            <div class="text-start">- {{message.username ?? message.userid}}</div>
+                                        </div> 
+                                        <img [src]='"assets/uploads/"+message.userid+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 60px; height: 60px;" class="rounded-circle" />
+                                    </div>
+                                </div> 
+                           </div> 
+                        </div> 
+                    </div>
                 </div>    
+                <form>    
+                    <div class="d-flex p-2">
+                        <input type="text" name="message" [(ngModel)]="message"  class="form-control form-control-lg" />
+                        <label for="file" class="btn btn-primary btn btn-block mx-1 d-flex flex-column justify-content-center">
+                                <span class="material-symbols-outlined">
+                                    add_a_photo
+                                </span>
+                        </label>
+                        <input (change)="fileChange($event)"  class="form-control d-none" type="file"  id="file"  aria-describedby="inputGroupFileAddon01" />    
+                        <button type="submit" class="btn btn-primary btn-lg btn-block d-flex flex-column justify-content-center" (click)="sendMessage()">
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
  

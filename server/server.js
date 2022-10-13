@@ -1,15 +1,28 @@
 // Import the modules required
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const http = require('http').Server(app);
 const bodyParser = require ('body-parser');
-const cors = require('cors');
+
+var PeerServer = require('peer').PeerServer;
+
 const MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
+
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:4200",
+        methods: ["GET", "POST"],
+    }
+})
+
+const sockets = require('./sockets.js');
+const server  = require('./listen.js');
 
 // use the modules
 app.use(cors());
 app.use(bodyParser.json());
+
 
 // url of the mongodb server
 const url = 'mongodb://localhost:27017/';
@@ -82,8 +95,18 @@ MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true}, funct
         // used to add a new message in a chat
         require('./routes/api-addmessage')(db, app);
 
+        // upload Image in a chat
+        require('./routes/api-uploadImage')(db, app);
+
 });
 
-module.exports = app.listen(3000, () =>{
-    console.log("Server is listening on port 3000");
-});
+
+sockets.connect(io, 3000);
+server.listen(http, 3000);
+
+/*
+var server2 = PeerServer({
+    host: "http://localhost",
+    port: 3000,
+    path: '/peerjs'
+});*/

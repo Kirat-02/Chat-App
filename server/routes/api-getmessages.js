@@ -8,8 +8,12 @@ module.exports = function(db, app){
         user = req.body;
         const collection = db.collection('messages');
         collection.find({channelid: channelid}).toArray((err,data)=>{
-            res.send(data);
+            if(data.length == 0){
+                res.send({"message": "No Messages exist"})
+            } else {
+                channelData = data[0].messages.filter(message=> message.channelid = this.channelid);
+                res.send(data);
+            }
         }) 
-
     })
 }
