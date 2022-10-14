@@ -40,6 +40,7 @@ Messages: This is an array of Messages. Each message is linked to a channel and 
       5.	Group Add Component: This displays the form to add user to a group that is not part of the group yet.
       6.	Channel Add Component: This displays the form to add user to a channel that is already part of a group.
       7.	App Header Component: This displays the navbar with logout button after logging in.
+      8. 
     b.	Services: 
       1.	Auth Service: This service is used to authenticate the user based on the information passed from the Login Component.
     c.	Models (Interfaces):
@@ -173,3 +174,168 @@ Messages: This is an array of Messages. Each message is linked to a channel and 
     - Message Component: The client will send a post request containing the channel id, message, and the user id. The server will append the new message to the list of messages for a specific channel. The changes will be saved in the json file. The page will refresh to get the new list of messages. The new message will be displayed in the current component. 
 
     - User Component: The client will send a post request containing the information of the new user. The server will update both the user and extended user json file with the user information. The User Component will reload with the new user in the list.
+
+**7. Server Architecture**
+  Route Files: 
+  1.	api-getuserlist.js: 
+    a.	Length: 10
+    b.	Usage: Used to get the list of all users.
+    c.	Variables: None
+    d.	Returns: data: List of all the users.
+  2.	api-getgroups.js: 
+    a.	Length: 9
+    b.	Usage: Used to get the list of all groups.
+    c.	Variables: None
+    d.	Returns: list of all the groups.
+  3.	api-getmessages.js:
+    a.	Length: 19
+    b.	Usage: Used to get all messages in a channel.
+    c.	Variables: 
+    i.	channelid: the id of channel requested.
+    d.	Returns: returns the chat history
+  4.	api-getgroupmembers.js:
+    a.	Length: 27
+    b.	Usage: Used to get information of all group and channel members.
+    c.	Variables: 
+    i.	group: Group details.
+    ii.	groupMembers: All group members.
+    iii.	members: Member data of the group.
+    iv.	nonmembers: Non-member data of the group.
+    d.	Returns: Group, channel, and member information.
+  5.	api-loadchannelmembers.js:
+    a.	Length: 41
+    b.	Usage: Used to get list of all members in a channel of a group.
+    c.	Variables: 
+    i.	groupid: Group id.
+    ii.	channelid: Channel id.
+    iii.	channeldata: Channel data.
+    iv.	groupMembers: Group members.
+    v.	channelmembers: Channel members.
+    vi.	nonmembers: non-members of channel
+    d.	Returns: Channel data, members, and non-members.
+  6.	api-login.js: 
+    a.	Length: 11
+    b.	Usage: This is used to authenticate user.
+    c.	Variables: 
+    i.	user: user login credentials (username and password).
+    d.	Returns:
+    i.	data: It returns all the user information.
+  7.	api-adduser.js:
+    a.	Length: 38
+    b.	Usage: Used to add new user to user list.
+    c.	Variables: 
+    i.	User: user data submitted in form.
+    ii.	Image: user image.
+    d.	Returns:
+    i.	Message: if user has been added successfully.
+    ii.	Error: if there is an error in adding user.
+  8.	api-addgroup.js:
+    a.	Length: 29
+    b.	Usage: Used to insert new group.
+    c.	Variables: 
+    i.	group: group data in request.
+    ii.	newgroup: filtered group data that will be inserted into groups collection.
+    d.	Returns: Inserts the new group into the collection.
+  9.	api-addmessage.js:
+    a.	Length: 20
+    b.	Usage: Used to add the text message into the collection
+    c.	Variables: 
+    i.	channelid: ID of channel.
+    ii.	userid: ID of user.
+    iii.	username: Name of the user
+    iv.	message: Message.
+    v.	userimage: Image of user.
+    d.	Returns: Add the new message into the collection
+  10.	api-adduserchannel.js:
+    a.	Length: 27
+    b.	Usage: used to add user to the channel
+    c.	Variables: 
+    i.	channelid: ID of channel.
+    ii.	userid: ID of user.
+    iii.	channelata: data of the channel
+    iv.	newchanneldata: channel data with user inserted.
+    d.	Returns: Adds the user into the channel.
+  11.	api-addusergroup.js:
+    a.	Length: 14
+    b.	Usage: Used to add user to group
+    c.	Variables: 
+    i.	groupid: ID of group.
+    ii.	userid: ID of user.
+    d.	Returns: Adds user to the group.
+  12.	api-deletechannel.js:
+    a.	Length: 21
+    b.	Usage: used to delete the channel.
+    c.	Variables: 
+    i.	channelid: ID of channel.
+    ii.	groupid: ID of group.
+    d.	Returns: removes the channel from stored data both in group and channel.
+  13.	api-deletegroup.js:
+    a.	Length: 18
+    b.	Usage: Used to delete the group
+    c.	Variables: 
+    i.	id: ID of group.
+    d.	Returns: Deletes the channel from data.
+  14.	api-deleteuser.js:
+    a.	Length: 18
+    b.	Usage: Used to delete the user.
+    c.	Variables: 
+    i.	id: id of user
+    d.	Returns: Deletes the user from database.
+  15.	api-deleteuserchannel.js:
+    a.	Length: 30
+    b.	Usage: Used to delete user from channel
+    c.	Variables: 
+    i.	userid: ID of user.
+    ii.	channelid: ID of channel.
+    iii.	channelData: Channel data.
+    iv.	newchanneldata: Channel data after deleting user.
+    d.	Returns: Deletes the user from channel.
+  16.	api-deleteusergroup.js:
+    a.	Length: 14
+    b.	Usage: Used to delete user from group
+    c.	Variables: 
+    i.	userid: ID of user.
+    ii.	groupid: ID of group.
+    d.	Returns: Deletes user from group.
+  17.	api-newchannel.js:
+    a.	Length: 20
+    b.	Usage: Used to add new channel to a group
+    c.	Variables: 
+    i.	groupid: ID of group.
+    d.	Returns: Adds a new channel to the group.
+  18.	api-updateuser.js:
+    a.	Length: 15
+    b.	Usage: Used to update user role to super.
+    c.	Variables: 
+    i.	id: ID of user.
+    d.	Returns: Updates the role of specified user.
+  19.	api-uploadImage.js:
+    a.	Length: 29
+    b.	Usage: used to upload new message to chat when image is uploaded as well.
+    c.	Variables:
+    i.	Message: The message to be uploaded
+    d.	Returns: Add the new message to the messages.
+  20.	api-groupAssistant.js:
+    a.	Length: 18
+    b.	Usage: used to upgrade user role to group assistant.
+    c.	Variables: 
+    i.	userid: ID of user.
+    ii.	groupid: ID of group.
+    d.	Returns: Upgrades user to group Assistant.
+  21.	api-groupAdmin.js:
+    a.	Length: 18
+    b.	Usage: used to upgrade user role to group admin.
+    c.	Variables: 
+    i.	userid: ID of user.
+    ii.	groupid: ID of group.
+    d.	Returns: Upgrades user to group Admin.
+
+  Socket File:
+    Socket.js: This is used to add live chat messaging to the application.
+  Module List:
+    1.	Express: Access requests.
+    2.	cors: Accept request from another domain.
+    3.	body-parser: encoding data.
+    4.	http: Handling requests.
+    5.	socket.io: real time chat.
+    6.	multer: uploading imaging.

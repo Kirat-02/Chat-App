@@ -1,6 +1,8 @@
+// add a new channel to the group
 module.exports = function(db, app){
     app.post('/api/newchannel', async function(req, res){
    
+        // group id
         var groupid = req.body.id;
 
         // get highest id from channel
@@ -14,8 +16,6 @@ module.exports = function(db, app){
                 collection2.updateOne({id: groupid},{$push: {channels: {id: newchannelid, members: []}}})
             }
         )
-
         // append it and add new one and then add it into the file both groups and channels
-
     });
 }

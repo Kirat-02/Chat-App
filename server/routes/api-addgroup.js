@@ -3,6 +3,7 @@ module.exports = function(db, app){
         if (!req.body) {
             return res.sendStatus(400)
         }
+        // gruop data
         var group = req.body;
         const collection = db.collection('groups');
         if(group.id == null){
@@ -11,6 +12,7 @@ module.exports = function(db, app){
             collection.find({id: group.id}).count((err, count)=>{
                 if (count == 0) {
 
+                    // group to be inserted
                     newgroup = {id: group.id, name: group.name, members:[], admins: [], assistant: [], channels: []}
                     
                     collection.insertOne(newgroup, (err, dbres)=>{

@@ -1,6 +1,7 @@
 // This is used to upload image in a chat
-
 const multer  = require('multer')
+
+// storage location
 const storage = multer.diskStorage({ 
     destination: '../src/assets/chat', 
       filename: (req, file, cb) => {
@@ -8,13 +9,16 @@ const storage = multer.diskStorage({
         }
  })
 
+// upload the image to this location
 var upload = multer({ storage: storage })
 
+   // add message to channel
 module.exports = function(db, app){
     app.post('/api/addmessageimage', upload.single("files"), (req, res)=>{
         if (!req.body) {
             return res.sendStatus(400)
         }
+        // message details
         message = JSON.parse(req.body.data)
         const collection = db.collection('messages');
         const options = { upsert: true };

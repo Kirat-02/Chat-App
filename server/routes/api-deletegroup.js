@@ -5,6 +5,7 @@ module.exports = function(db, app){
             return res.sendStatus(400);
         }
 
+        // id of group
         id = req.body.id;
         const collection = db.collection('groups');
         

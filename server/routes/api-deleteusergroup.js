@@ -3,6 +3,7 @@ module.exports = function(db, app){
         if (!req.body){
             return res.sendStatus(400)
         }
+        // User and group id
         userid = req.body.userid;
         groupid =  req.body.groupid;
         const collection = db.collection('groups');

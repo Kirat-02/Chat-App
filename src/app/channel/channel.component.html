@@ -49,7 +49,7 @@
                                         <img [src]='"assets/chat/"+message.image+".png"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 200px; height: 200px;" class="rounded mb-2" />
                                     </div>
                                     <div class="d-flex flex-row ">
-                                        <img [src]='"assets/uploads/"+message.userid+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'"  style="width: 60px; height: 60px;" class="rounded-circle my-auto" />
+                                        <img [src]='"assets/uploads/"+message.userimage+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'"  style="width: 60px; height: 60px;" class="rounded-circle my-auto" />
                                         <div class="py-1 px-2 my-1 d-flex d-flex flex-column flex-grow-1">
                                             <div class="text-end">{{message.message}} </div>
                                             <div class="text-end">- {{message.username ?? message.userid}}</div>
@@ -67,7 +67,7 @@
                                             <div>{{message.message}}</div>
                                             <div class="text-start">- {{message.username ?? message.userid}}</div>
                                         </div> 
-                                        <img [src]='"assets/uploads/"+message.userid+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 60px; height: 60px;" class="rounded-circle" />
+                                        <img [src]='"assets/uploads/"+message.userimage+".jpeg"' onerror="this.onerror=null; this.src='assets/uploads/test.png'" style="width: 60px; height: 60px;" class="rounded-circle" />
                                     </div>
                                 </div> 
                            </div> 

@@ -3,19 +3,46 @@ import {HttpClient} from '@angular/common/http';
 import { Userobj } from '../objects/userobj';
 import { Groups } from '../objects/groupobj';
 import { Channel } from '../objects/channelobj';
-
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
+  
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  get isLoggedIn() {
+    return this.loggedIn.asObservable(); 
+  }
 
-  constructor(private http: HttpClient) { }
+  user: Userobj;
+  message: string;
+
+
+  constructor(private http: HttpClient, private router: Router) { }
 
   // used to authenticate user
   login(username: String, password: String){
     var user = {"username": username, "password": password}
-    return this.http.post<any>('http://localhost:3000/api/login', user);
+    this.http.post<any>('http://localhost:3000/api/login', user)
+    .subscribe((data)=>{
+      this.user = data;
+      if(data.length == 0){
+        this.message='Invalid Username or Password';
+      } else {
+        sessionStorage.setItem('userid', data[0].id);
+        sessionStorage.setItem('username', data[0].name.toString());
+        sessionStorage.setItem('userrole', data[0].role.toString());
+        this.loggedIn.next(true);
+        localStorage.setItem("auth", JSON.stringify(true));
+        if(data[0].image != undefined){
+          sessionStorage.setItem('userimage', data[0].image.toString());
+        }
+        this.router.navigateByUrl("/user/"+data[0].id);
+      }
+      return data;
+    })
   }
 
   // List all groups of member

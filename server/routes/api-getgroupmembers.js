@@ -1,3 +1,5 @@
+// used to get all members of a group
+
 module.exports = function(db, app){
     app.get('/api/groupMembers/:id',function(req,res){
         const collection = db.collection('groups');
@@ -5,9 +7,11 @@ module.exports = function(db, app){
 
         collection.find({id: parseInt(req.params.id)}).toArray((err,data)=>{
 
+            // group data
             let group = data;
             let groupMembers = data[0].members;
 
+            // members and non members
             var members = [];
             var nonmembers = [];
 

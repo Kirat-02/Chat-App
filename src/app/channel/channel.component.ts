@@ -13,7 +13,8 @@ interface Message {
   userid: Number,
   username: Text,
   channelid: Number,
-  message: Text;
+  message: Text,
+  userimage: String,
   type: String,
   image: Text
 }
@@ -35,6 +36,7 @@ export class ChannelComponent implements OnInit {
   // list of varibales used in this file
   username = sessionStorage.getItem('username');
   userid = Number(sessionStorage.getItem('userid'));
+  userimage = sessionStorage.getItem('userimage');
   channelid: Number = Number(this.route.snapshot.params['channelid']);
   messages: Message[]= [];
   message = '';
@@ -85,7 +87,7 @@ export class ChannelComponent implements OnInit {
   sendImage(){
       let formData = new FormData();
       let date = this.channelid+'_'+this.userid+'_'+Date.now() 
-      var channel = {channelid: this.channelid, userid: this.userid, username: this.username, message: this.message, type: 'image', image: date};
+      var channel = {channelid: this.channelid, userid: this.userid, username: this.username, message: this.message, userimage: this.userimage, type: 'image', image: date};
       const data = JSON.stringify(channel)
       formData.append('data', data);
 
@@ -112,13 +114,13 @@ export class ChannelComponent implements OnInit {
         this.uploadedFiles=[];
       } else {
       // if file is not given
-        var data = {channelid: this.channelid, userid: this.userid, username: this.username, type: 'text', message: this.message};
+        var data = {channelid: this.channelid, userid: this.userid, username: this.username, userimage: this.userimage, type: 'text', message: this.message};
         this.service.addMessage(data).subscribe()
         this.socketService.send(data);
         this.message="";
       }
     } else if(this.message != null){
-      var data = {channelid: this.channelid, userid: this.userid, username: this.username, type: 'text', message: this.message};
+      var data = {channelid: this.channelid, userid: this.userid, username: this.username, userimage: this.userimage, type: 'text', message: this.message};
       this.service.addMessage(data).subscribe()
       this.socketService.send(data);
       this.message="";

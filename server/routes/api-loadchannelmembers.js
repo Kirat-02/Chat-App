@@ -1,6 +1,8 @@
+// used to get channel members of a group
 module.exports = function(db, app){
     app.get('/api/group/:groupid/channelusers/:channelid',function(req,res){
 
+        // group id and channel id
         groupid = parseInt(req.params.groupid);
         channelid = parseInt(req.params.channelid);
 

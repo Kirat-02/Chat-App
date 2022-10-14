@@ -6,12 +6,13 @@ module.exports = function(db, app){
         userid = parseInt(req.body.userid);
         username = req.body.username;
         message = req.body.message;
+        userimage = req.body.userimage
 
         // used to all messages of a channel
         user = req.body;
         const collection = db.collection('messages');
         const options = { upsert: true };
-        collection.updateOne({channelid: channelid}, {$push: {messages: {userid: userid, username: username, message: message, type: 'text'}}}, options, ()=>{
+        collection.updateOne({channelid: channelid}, {$push: {messages: {userid: userid, username: username, message: message, userimage: userimage, type: 'text'}}}, options, ()=>{
             res.send({'Message': 'Message Saved'});
         })
 

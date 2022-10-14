@@ -3,6 +3,7 @@ module.exports = function(db, app){
         if (!req.body){
             return res.sendStatus(400)
         }
+        // channel details
         channelid = req.body.channelid;
         groupid =  req.body.groupid;
 

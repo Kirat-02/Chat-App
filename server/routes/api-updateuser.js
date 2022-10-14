@@ -4,6 +4,7 @@ module.exports = function(db, app){
         if (!req.body){
             return res.sendStatus(400)
         }
+        // id of user to be updated
         id = req.body.id;
         const collection = db.collection('users');
 

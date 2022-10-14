@@ -17,8 +17,6 @@ const routes: Routes = [
   { path: 'userlist', component: UserComponent }, 
   { path: 'group/:groupid/channel/:channelid/adduser', component: ChanneladdComponent }, 
   { path: 'group/:groupid/adduser', component: GroupaddComponent },
-  { path: 'videoRoom', component: VideoComponent}
-
 ];
 
 @NgModule({

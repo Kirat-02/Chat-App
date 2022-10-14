@@ -74,7 +74,12 @@ export class GroupComponent implements OnInit {
       }
     })
   }
-
+  
+  // logs the user out
+  onLogout(){
+    sessionStorage.clear();
+    this.router.navigateByUrl("/login");               
+  }
   // used to delete the group
   deleteGroup(id: Number){
     var group = {id: id}

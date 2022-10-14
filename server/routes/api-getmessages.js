@@ -4,8 +4,6 @@ module.exports = function(db, app){
         // get channel id from url
         channelid = parseInt(req.params.channelid)
 
-        // used to all messages of a channel
-        user = req.body;
         const collection = db.collection('messages');
         collection.find({channelid: channelid}).toArray((err,data)=>{
             if(data.length == 0){

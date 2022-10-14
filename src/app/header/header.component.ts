@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  isLoggedIn$: Observable<boolean> = new Observable<false>;     
+  isLoggedIn$: Observable<boolean> = new Observable<false>; 
+  
+  userid=sessionStorage.getItem('userid');
 
   constructor(private authService: AuthService) { }
 
@@ -18,6 +20,7 @@ export class HeaderComponent implements OnInit {
   }
   
   onLogout(){
+    sessionStorage.clear();
     this.authService.logout();                  
   }
 }
