@@ -102,10 +102,11 @@ MongoClient.connect(url, {useNewUrlParser: true,useUnifiedTopology: true}, funct
 
 
 sockets.connect(io, 3000);
-//server.listen(http, 3000);;
+server.listen(http, 3000);;
+/*
 module.exports = app.listen(3000, () =>{
     console.log("Server is listening on port 3000");
-});
+});*/
 /*
 var server2 = PeerServer({
     host: "http://localhost",
