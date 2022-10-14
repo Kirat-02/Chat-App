@@ -8,6 +8,7 @@ import { GroupaddComponent } from './groupadd/groupadd.component';
 import { UserComponent } from './user/user.component';
 import { VideoComponent } from './video/video.component';
 import { AuthGuard } from './auth/auth.guard';
+import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent }, 
@@ -17,6 +18,8 @@ const routes: Routes = [
   { path: 'userlist', component: UserComponent }, 
   { path: 'group/:groupid/channel/:channelid/adduser', component: ChanneladdComponent }, 
   { path: 'group/:groupid/adduser', component: GroupaddComponent },
+  { path: 'video', component: VideoComponent},
+  {path: 'room', component: RoomComponent}
 ];
 
 @NgModule({

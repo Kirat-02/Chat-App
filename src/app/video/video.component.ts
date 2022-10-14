@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import {Router} from "@angular/router";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-video',
@@ -9,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class VideoComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private _location: Location) { }
 
   ngOnInit(): void {
   }
@@ -17,6 +18,10 @@ export class VideoComponent implements OnInit {
   createRoom() {
     console.log('createRoom');
     this.router.navigate([`/${uuidv4()}`]);
+  }
+
+  back(){
+    this._location.back();    
   }
 
   

@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // submits the login data
   submit(){
     this.submitted = true;
     var data = this.userdata.login(this.username, this.password)

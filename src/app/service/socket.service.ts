@@ -10,7 +10,6 @@ export class SocketService {
   // socket service variable
   private socket: Socket;
 
-
   constructor() { }
 
     // initialise socket service
@@ -19,10 +18,12 @@ export class SocketService {
       return()=>{this.socket.disconnect();}
     }
   
+    // send the message
     send(data: any){
       this.socket.emit('message', data);
     }
   
+    // get the new message
     getMessage(){
       return new Observable((observer)=>{
         this.socket.on('message', (data)=>{
@@ -30,10 +31,12 @@ export class SocketService {
       });
     }
 
+    // send the leave chat notification
     sendLeft(data: any){
       this.socket.emit('left', data);
     }
 
+    // get the leave chat notification
     getLeftMessage(){
       return new Observable((observer)=>{
         this.socket.on('left', (data)=>{

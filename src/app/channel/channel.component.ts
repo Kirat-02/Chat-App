@@ -44,7 +44,7 @@ export class ChannelComponent implements OnInit {
   uploadedFiles: Array < File >;
   ioConnection: any;
 
-  constructor(private route: ActivatedRoute, private _location: Location, private service: AppService, private socketService: SocketService) { }
+  constructor(private route: ActivatedRoute, private _location: Location, private service: AppService, private socketService: SocketService, private router: Router) { }
 
   // initialise
   ngOnInit(){
@@ -100,7 +100,7 @@ export class ChannelComponent implements OnInit {
 
   // used for video chat
   startVideo(){
-    console.log('video')
+    this.router.navigateByUrl("/video");      
   }
 
   // used to send new messages

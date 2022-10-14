@@ -1,4 +1,6 @@
 const multer  = require('multer')
+
+// the storage directory for user image
 const storage = multer.diskStorage({ 
     destination: '../src/assets/uploads', 
       filename: (req, file, cb) => {
@@ -6,6 +8,7 @@ const storage = multer.diskStorage({
         }
  })
 
+// upload file
 var upload = multer({ storage: storage })
 
 module.exports = function(db, app){

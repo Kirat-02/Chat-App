@@ -2,10 +2,10 @@
         <div class="d-flex justify-content-between py-1">
                 <div class="align-self-center">
                     <img [src]="'assets/uploads/'+userimage+'.jpeg'" onerror="this.onerror=null; this.src='assets/uploads/test.png'"  style="width: 60px; height: 60px;" class="rounded-circle" />              
-                    Hello, {{username}} 
+                    Hello, {{username}}
                 </div>
                 <div class="d-flex justify-content-end my-auto">
-                    <div *ngIf="userrole=='super' || userrole=='admin'" class="px-2">
+                    <div *ngIf="userrole=='super'||userrole =='admin'" class="px-2">
                         <button class="btn btn-primary d-flex justify-content-center" (click)="loaduserlist()">
                             <span class="material-symbols-outlined">person</span>
                             User List
@@ -48,13 +48,13 @@
      
             <div  *ngFor="let group of groups; let i = index"  >
            
-                <div *ngIf="group.members.includes(userid) || userrole=='super' " class="d-flex flex-column my-1 bg-light rounded border border-primary">
+                <div *ngIf="group.members.includes(userid) || userrole=='super' || userrole=='admin' " class="d-flex flex-column my-1 bg-light rounded border border-primary">
 
                     <div class="d-flex justify-content-between py-1 bg-info rounded-top"> 
                         <div class="align-self-center px-2">
                             {{ group.name ?? 'Group '+group.id  }}     
                         </div>
-                        <div *ngIf="userrole=='super' || group.admins.includes(userid)" class="d-flex">
+                        <div *ngIf="userrole=='super' || userrole =='admin' || group.admins.includes(userid)" class="d-flex">
                             <div class="px-1" hidden>
                                 <button class="btn btn-warning d-flex justify-content-center">
                                     <span class="material-symbols-outlined">expand_more</span>
@@ -77,12 +77,12 @@
                     <div *ngFor="let channel of group.channels; let i = index" class="d-flex justify-content-between py-2 w-75 align-self-center border-bottom"> 
                         <div class="align-self-center px-1">Channel {{ i+1 }} </div>
                         <div class="d-flex">
-                            <div *ngIf="userrole=='super'" class="px-1">
+                            <div *ngIf="userrole=='super' || userrole =='admin' || group.assistant.includes(userid) ||  group.admins.includes(userid)" class="px-1">
                                 <button (click)="channelAdduser(group.id, channel.id)" class="btn btn-primary d-flex justify-content-center">
                                     <span class="material-symbols-outlined">group_add</span>
                                 </button>
                             </div>
-                            <div *ngIf="userrole=='super' || group.assistant.includes(userid) ||  group.admins.includes(userid)" class="px-1">
+                            <div *ngIf="userrole=='super' || userrole =='admin' ||  group.admins.includes(userid) " class="px-1">
                                 <button class="btn btn-danger d-flex justify-content-center" (click)="deleteChannel(group.id, channel.id)">
                                     <span class="material-symbols-outlined">delete</span>
                                 </button>
@@ -95,7 +95,7 @@
                         </div>
                     </div>   
                 
-                    <div *ngIf="userrole =='super' ||  group.admins.includes(userid)" class="d-flex justify-content-start py-2  w-75 align-self-center bg-light rounded-bottom"> 
+                    <div *ngIf="userrole =='super' || userrole =='admin' ||  group.admins.includes(userid) || group.assistant.includes(userid)" class="d-flex justify-content-start py-2  w-75 align-self-center bg-light rounded-bottom"> 
                     
                         <div class="px-1">
                             <button class="btn btn-success d-flex justify-content-center" (click)="addChannel(group.id)">

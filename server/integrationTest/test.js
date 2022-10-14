@@ -30,9 +30,49 @@ describe('Server test', function() {
         });
     });
 
+    // Route to get all groups members
+    describe('/api/groupMembers/1', () => {
+        it('it should get all the groups', (done) => {
+            chai.request(app)
+                .get('/api/groupMembers/1')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    // get all members of a group
+    describe('/api/getgroups', () => {
+        it('it should get all the groups', (done) => {
+            chai.request(app)
+                .get('/api/getgroups')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+
+     // Route to update user
+     describe('/api/adduser', () => {
+        let formData = new FormData();
+        let user = {id: 9, name: 'test-2', email: 'test@gmail.com', password: '111', role: 'normal', groups: [], image:''}
+        const data = JSON.stringify(user)
+        formData.append('data', data);
+        it('it should add a new user', (done) => {
+            chai.request(app).post('/api/adduser')  
+            .set('content-type', 'application/json')
+            .send(formData)
+                .end((err, res) => {
+                    done();
+                });
+        });
+    });
+
     // Routes for getting user by its id
     describe('/api/login', () => {
-        it('it should get user 1', (done) => {
+        it('it should get user test-2', (done) => {
             chai.request(app).post('/api/login')  
             .set('content-type', 'application/json')
             .send({'username': 'kirat', 'password': '123'})
@@ -44,53 +84,28 @@ describe('Server test', function() {
         });
     });
 
-    /*
-    describe('/api/getitem', () => {
-        it('it should get product 2', (done) => {
-            chai.request(app).post('/api/getitem')  
+    // Route to update user
+    describe('/api/updateuser', () => {
+        it('it should update user role to super', (done) => {
+            chai.request(app).post('/api/updateuser')  
             .set('content-type', 'application/json')
-            .send({'productid': 2})
+            .send({'id': 9})
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body[0].should.have.property('productid');
+                    res.body.should.have.property('message');
                     done();
                 });
         });
     });
 
-    // Routes for updating product by its id
-    describe('/api/update', () => {
-        it('it should update a product 1', (done) => {
-            chai.request(app).post('/api/update')  
-            .set('content-type', 'application/json')
-            .send({'productid': 1, 'productname': 'iPhone XR', 'productdesc': 'latest iPhone', 'productprice': '15', 'productunits': '2'})
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body['ok'].should.have.property('productid');
-                    done();
-                });
-        });
-    });
+   
 
-    describe('/api/update', () => {
-        it('it should update a product 2', (done) => {
-            chai.request(app).post('/api/update')  
+    // Route to create new group
+    describe('/api/addgroup', () => {
+        it('it should add user to group', (done) => {
+            chai.request(app).post('/api/addgroup')  
             .set('content-type', 'application/json')
-            .send({'productid': 2, 'productname': 'Samsung TV', 'productdesc': 'latest TV', 'productprice': '25', 'productunits': '4'})
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body['ok'].should.have.property('productid');
-                    done();
-                });
-        });
-    });
-
-    // Routes for deleting a product
-    describe('/api/deleteitem', () => {
-        it('it should delete the product 1', (done) => {
-            chai.request(app).post('/api/deleteitem')  
-            .set('content-type', 'application/json')
-            .send({'productid': 1})
+            .send({'id': 100, 'name': 'test scripts'})
                 .end((err, res) => {
                     res.should.have.status(200);
                     done();
@@ -98,11 +113,25 @@ describe('Server test', function() {
         });
     });
 
-    describe('/api/deleteitem', () => {
-        it('it should delete the product 2', (done) => {
-            chai.request(app).post('/api/deleteitem')  
+    // Route to create new channel
+    describe('/api/newchannel', () => {
+        it('it should create a new channel', (done) => {
+            chai.request(app).post('/api/newchannel')  
             .set('content-type', 'application/json')
-            .send({'productid': 2})
+            .send({'id': 100})
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+    
+    // route to add user to group
+    describe('/api/addusergroup', () => {
+        it('it should add user to group', (done) => {
+            chai.request(app).post('/api/addusergroup')  
+            .set('content-type', 'application/json')
+            .send({'userid': 9, 'groupid': 100})
                 .end((err, res) => {
                     res.should.have.status(200);
                     done();
@@ -110,28 +139,68 @@ describe('Server test', function() {
         });
     });
 
-    // Routes for adding new product
-    describe('/api/add', () => {
-        it('it should add a new product 1', (done) => {
-            chai.request(app).post('/api/add')  
+    // route to upgrade user role to group assistant
+    describe('/api/groupAssistant', () => {
+        it('it should add user to channel', (done) => {
+            chai.request(app).post('/api/groupAssistant')  
             .set('content-type', 'application/json')
-            .send({'productid': 1, 'productname': 'iPhone XR', 'productdesc': 'latest iPhone', 'productprice': '15', 'productunits': '2'})
+            .send({'userid': 9, 'groupid': 100})
                 .end((err, res) => {
-                    res.body.should.have.property('err');
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });    
+
+    // route to upgrade user role to group admin
+    describe('/api/groupAdmin', () => {
+        it('it should add user to channel', (done) => {
+            chai.request(app).post('/api/groupAdmin')  
+            .set('content-type', 'application/json')
+            .send({'userid': 9, 'groupid': 100})
+                .end((err, res) => {
+                    res.should.have.status(200);
                     done();
                 });
         });
     });
 
-    describe('/api/add', () => {
-        it('it should add a new product 2', (done) => {
-            chai.request(app).post('/api/add')  
+    // route to remove user from group
+    describe('/api/deleteusergroup', () => {
+        it('it should delete teh group', (done) => {
+            chai.request(app).post('/api/deletegroup')  
             .set('content-type', 'application/json')
-            .send({'productid': 2, 'productname': 'Samsung TV', 'productdesc': 'latest TV', 'productprice': '20', 'productunits': '4'})
+            .send({ 'userid':9, 'groupid': 100})
                 .end((err, res) => {
-                    res.body.should.have.property('err');
+                    res.should.have.status(200);
                     done();
                 });
         });
-    });*/
+    });
+
+    // route to delete group
+    describe('/api/deletegroup', () => {
+        it('it should delete teh group', (done) => {
+            chai.request(app).post('/api/deletegroup')  
+            .set('content-type', 'application/json')
+            .send({'id': 100})
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    // Route to delete user
+    describe('/api/deleteuser', () => {
+        it('it should delete a user', (done) => {
+            chai.request(app).post('/api/deleteuser')  
+            .set('content-type', 'application/json')
+            .send({'id': 9})
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
 });
